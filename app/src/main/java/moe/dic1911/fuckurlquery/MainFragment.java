@@ -1,4 +1,4 @@
-package moe.dic1911.fuckmoptt;
+package moe.dic1911.fuckurlquery;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

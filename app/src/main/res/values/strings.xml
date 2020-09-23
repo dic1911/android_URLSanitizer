@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">FuckMoPTT</string>
-    <string name="desc">為了抵制MoPTT作者仗著自己市占率高\n在app分享連結預設為自己的廣告網址的劣質行為\n本030肥宅花了點時間製作本app來自動將廣告連結轉換回一般網頁版PTT連結\n</string>
+    <string name="app_name">FuckURLQuery</string>
+    <string name="desc">This app tries to cleanup URLs with GET query that tracks users\n</string>
 </resources>

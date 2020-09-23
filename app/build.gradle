@@ -5,7 +5,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "moe.dic1911.fuckmoptt"
+        applicationId "moe.dic1911.fuckurlquery"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
