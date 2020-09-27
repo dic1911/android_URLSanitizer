@@ -1,0 +1,8 @@
+Don't like those tracking GET queries from the big brothers? Here, this app got your back.
+Features:
+
+Cleanup URLs when opening link
+Sharing URLs to this app also cleans the URL
+
+How it works:
+This app handles Android intent to open/share link, so the app can get the URL and modify it, get rid of those dirty query and create another intent for your original action.
