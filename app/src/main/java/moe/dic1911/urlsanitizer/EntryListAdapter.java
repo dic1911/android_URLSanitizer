@@ -1,7 +1,5 @@
 package moe.dic1911.urlsanitizer;
 
-import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class EntryListAdapter extends RecyclerView.Adapter<EntryListAdapter.EntryListHolder> {
-    private Context con;
     private int count = 0;
 
     public class EntryListHolder extends RecyclerView.ViewHolder {
-        public int id;
-        public TextView entry;
+        final public int id;
+        final public TextView entry;
         public EntryListHolder(View v) {
             super(v);
             id = (count++);
@@ -24,17 +21,14 @@ public class EntryListAdapter extends RecyclerView.Adapter<EntryListAdapter.Entr
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    BlacklistHandler.getInstance().removeEntry(entry.getText().toString());
-                    notifyDataSetChanged();
-                    Log.d("030", entry.getText().toString());
+                    if (BlacklistHandler.getInstance().removeEntry(entry.getText().toString()))
+                        notifyDataSetChanged();
                 }
             });
         }
     }
 
-    public EntryListAdapter(Context context) {
-        con = context;
-    }
+    public EntryListAdapter() {}
 
     @NonNull
     @Override
@@ -45,11 +39,11 @@ public class EntryListAdapter extends RecyclerView.Adapter<EntryListAdapter.Entr
 
     @Override
     public void onBindViewHolder(@NonNull final EntryListHolder holder, final int position) {
-        holder.entry.setText(BlacklistHandler.getInstance().getBlacklist().get(position));
+        holder.entry.setText(BlacklistHandler.getInstance().getEntry(position));
     }
 
     @Override
     public int getItemCount() {
-        return BlacklistHandler.getInstance().getBlacklist().size();
+        return BlacklistHandler.getInstance().getBlacklistSize();
     }
 }

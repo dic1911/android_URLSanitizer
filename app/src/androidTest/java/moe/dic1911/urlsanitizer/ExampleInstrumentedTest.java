@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("moe.dic1911.fuckmoptt", appContext.getPackageName());
+        assertEquals("moe.dic1911.urlsanitizer", appContext.getPackageName());
     }
 }

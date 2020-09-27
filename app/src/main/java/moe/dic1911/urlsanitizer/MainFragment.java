@@ -28,9 +28,10 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // handle add entry
-                BlacklistHandler.getInstance().addEntry(txt_new_entry.getText().toString());
-                Snackbar.make(view, getString(R.string.noti_added), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                if (BlacklistHandler.getInstance().addEntry(txt_new_entry.getText().toString()))
+                    Snackbar.make(view, getString(R.string.noti_added), Snackbar.LENGTH_LONG).show();
+                else
+                    Snackbar.make(view, getString(R.string.noti_dup), Snackbar.LENGTH_LONG).show();
             }
         });
         // Inflate the layout for this fragment

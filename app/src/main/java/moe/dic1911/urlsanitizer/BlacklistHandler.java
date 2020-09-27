@@ -2,11 +2,11 @@ package moe.dic1911.urlsanitizer;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
+@SuppressWarnings("SpellCheckingInspection")
 public class BlacklistHandler {
     private static SharedPreferences prefs;
     private static ArrayList<String> blacklist;
@@ -47,7 +47,6 @@ public class BlacklistHandler {
         blacklist.add("utm_content");
 
         String result = buildPrefs();
-        Log.d("030", result);
         prefs.edit().putString("blacklist", result).apply();
     }
 
@@ -56,6 +55,8 @@ public class BlacklistHandler {
     }
 
     public Boolean addEntry(String query) {
+        if (blacklist.contains(query))
+            return false;
         blacklist.add(query);
         prefs.edit()
             .putString("blacklist", prefs.getString("blacklist", "") + "," + query)
@@ -65,7 +66,6 @@ public class BlacklistHandler {
 
     public Boolean removeEntry(int index) {
         try {
-            Log.d("030", "removing " + blacklist.get(index) + " from " + prefs.getString("blacklist", ""));
             blacklist.remove(index);
             prefs.edit().putString("blacklist", buildPrefs()).apply();
         } catch (IndexOutOfBoundsException e) {
@@ -78,8 +78,12 @@ public class BlacklistHandler {
         return removeEntry(blacklist.indexOf(value));
     }
 
-    public ArrayList<String> getBlacklist() {
-        return blacklist;
+    public String getEntry(int index) {
+        return blacklist.get(index);
+    }
+
+    public int getBlacklistSize() {
+        return blacklist.size();
     }
 
     private String buildPrefs() {

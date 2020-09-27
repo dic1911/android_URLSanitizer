@@ -6,9 +6,7 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
 import android.view.View;
 
 import android.view.Menu;
@@ -16,8 +14,6 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 public class MainActivity extends AppCompatActivity {
-
-    final private String TAG = "030";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +23,8 @@ public class MainActivity extends AppCompatActivity {
         final BlacklistHandler blh = new BlacklistHandler(getApplicationContext());
         Intent appLinkIntent = getIntent();
         String appLinkAction = appLinkIntent.getAction();
-        Log.d(TAG, appLinkAction);
         Uri appLinkData = appLinkIntent.getData();
-        Uri result = null;
+        Uri result;
         if (appLinkAction.equals(Intent.ACTION_VIEW) && appLinkData != null) {
             // handle query and stuff then rebuild the uri
             result = new UrlHandler(blh, appLinkData).sanitize();

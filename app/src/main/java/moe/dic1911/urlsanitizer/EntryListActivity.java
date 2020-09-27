@@ -17,7 +17,7 @@ public class EntryListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_entry_list);
 
         recyclerView = findViewById(R.id.entry_list);
-        entryList = new EntryListAdapter(getApplicationContext());
+        entryList = new EntryListAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(entryList);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
