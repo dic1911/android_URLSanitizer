@@ -1,4 +1,4 @@
-package moe.dic1911.fuckurlquery;
+package moe.dic1911.urlsanitizer;
 
 import org.junit.Test;
 

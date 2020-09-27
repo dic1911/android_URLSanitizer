@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "moe.dic1911.fuckurlquery",
+  "applicationId": "moe.dic1911.urlsanitizer",
   "variantName": "release",
   "elements": [
     {
