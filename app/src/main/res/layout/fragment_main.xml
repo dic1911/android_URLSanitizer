@@ -35,6 +35,15 @@
             android:layout_gravity="center"
             android:text="@string/btn_add" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="80sp"
+            android:text="@string/txt_icon_credit"
+            android:textSize="10sp"
+            tools:ignore="SmallSp" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

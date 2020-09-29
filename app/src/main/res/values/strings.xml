@@ -6,4 +6,5 @@
     <string name="btn_add">Add Entry</string>
     <string name="noti_added">Added</string>
     <string name="noti_dup">The entry already exists</string>
+    <string name="txt_icon_credit">App icon made by Smashicons from Flaticon</string>
 </resources>
