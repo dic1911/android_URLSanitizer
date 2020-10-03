@@ -16,7 +16,6 @@
         android:supportsRtl="true"
         android:taskAffinity="android.task.browser"
         android:theme="@style/Theme.AppCompat.DialogWhenLarge"
-        android:banner="@android:drawable/ic_menu_send"
         android:fullBackupContent="@xml/backup_descriptor">
         <activity android:name="moe.dic1911.urlsanitizer.EntryListActivity" />
         <activity
