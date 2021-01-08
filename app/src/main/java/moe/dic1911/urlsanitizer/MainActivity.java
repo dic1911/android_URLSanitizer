@@ -51,13 +51,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_main);
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.x = -20;
-        params.height = 1000;
-        params.width = 1000;
-        params.y = -10;
-
-        this.getWindow().setAttributes(params);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

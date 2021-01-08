@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">URLSanitizer</string>
-    <string name="desc">This app tries to cleanup URLs with GET query that tracks users</string>
+    <string name="desc">This app tries to cleanup URLs with GET query that tracks users, tap on the floating button to check saved rules.</string>
     <string name="txt_entry_list">Tap on the query text to remove entry</string>
     <string name="txt_new_entry_hint">Enter GET query key</string>
     <string name="btn_add">Add Entry</string>
