@@ -8,7 +8,7 @@ How to use:
 Opening a link: Simply open the link with this app first, and choose the app you want to use to open the link afterwards.
 Sharing a link: Share to this app first, and choose the app you want the link to share to afterwards.
 Adding missing GET query(ies): Open the app, fill the query in, then tap on "Add Entry" button.
-(Note. Wildcard isn't supported (yet))
+(Note. Wildcard is supported since 1.3.0, check default entries for usage)
 
 How it works:
 

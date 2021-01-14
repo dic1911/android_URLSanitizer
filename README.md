@@ -1,5 +1,7 @@
 # URLSanitizer
 
+[<img src="https://f-droid.org/badge/get-it-on-en.png" alt="Get it from F-Droid"
+      height="100"><br/>](https://f-droid.org/packages/moe.dic1911.urlsanitizer)
 
 Just a simple tool to get rid of all those annoying tracking GET query from URLs.
 
