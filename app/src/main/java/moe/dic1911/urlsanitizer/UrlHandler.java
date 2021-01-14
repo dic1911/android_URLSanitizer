@@ -29,7 +29,7 @@ public class UrlHandler {
 
         if (query != null)
             for (String q : url.getQueryParameterNames())
-                if (!blh.isBlacklisted(q))
+                if (!blh.isBlacklisted(host, q))
                     builder.appendQueryParameter(q, url.getQueryParameter(q));
 
         return builder.build();
