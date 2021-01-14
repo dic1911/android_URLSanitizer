@@ -13,6 +13,8 @@ public class BlacklistHandler {
     private static ArrayList<String> blacklist;
     private static BlacklistHandler blh;
 
+    private static final int BLACKLIST_VER = 1;
+
     public static BlacklistHandler getInstance() {
         return blh;
     }
@@ -20,10 +22,10 @@ public class BlacklistHandler {
     public BlacklistHandler(Context c) {
         prefs = c.getSharedPreferences("main", Context.MODE_PRIVATE);
         blacklist = new ArrayList<>();
-        if (prefs.contains("blacklist")) {
-            Collections.addAll(blacklist, prefs.getString("blacklist", "").split(","));
-        } else {
+        if (!prefs.contains("blacklist_ver")) {
             initialize();
+        } else {
+            Collections.addAll(blacklist, prefs.getString("blacklist", "").split(","));
         }
         if (blh == null) blh = this;
     }
@@ -145,6 +147,7 @@ public class BlacklistHandler {
 
         String result = buildPrefs();
         prefs.edit().putString("blacklist", result).apply();
+        prefs.edit().putInt("blacklist_ver", BLACKLIST_VER).apply();
     }
 
     public Boolean isBlacklisted(String host, String query) {
