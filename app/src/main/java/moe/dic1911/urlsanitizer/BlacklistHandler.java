@@ -158,6 +158,7 @@ public class BlacklistHandler {
             if (entry.contains("@")) {
                 e = entry.split("@")[0];
                 h = entry.split("@")[1];
+                hMatch = false;
             } else {
                 e = entry;
                 hMatch = true;
