@@ -175,7 +175,7 @@ public class BlacklistHandler {
             if (!hMatch) {
                 if (h.endsWith("*"))
                     hMatch = host.startsWith(h.substring(0, h.length()-1));
-                else if (e.startsWith("*"))
+                else if (h.startsWith("*"))
                     hMatch = host.endsWith(h.substring(1));
                 else
                     hMatch = host.equals(h);
