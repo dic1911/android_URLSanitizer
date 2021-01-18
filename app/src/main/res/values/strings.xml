@@ -6,5 +6,7 @@
     <string name="btn_add">Add Entry</string>
     <string name="noti_added">Added</string>
     <string name="noti_dup">The entry already exists</string>
-    <string name="txt_icon_credit">App icon made by Smashicons from Flaticon</string>
+    <string name="txt_icon_credit" translatable="false">App icon made by Smashicons from Flaticon</string>
+    <string name="unshortening">Handling short URL, this may take a few secs...</string>
+    <string name="unshorten_err">An error occurred when unshortening the URL.</string>
 </resources>

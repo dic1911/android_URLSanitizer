@@ -3,15 +3,13 @@ package moe.dic1911.urlsanitizer;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.View;
-
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.WindowManager;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,27 +25,28 @@ public class MainActivity extends AppCompatActivity {
         Uri result;
         if (appLinkAction.equals(Intent.ACTION_VIEW) && appLinkData != null) {
             // handle query and stuff then rebuild the uri
-            result = new UrlHandler(blh, appLinkData).sanitize();
+            result = new UrlHandler(this, blh, appLinkData).sanitize();
+            if (result == null) quit();
 
             // open link
             Intent intent = new Intent(Intent.ACTION_VIEW);
             Uri target = result;
             intent.setData(target);
             startActivity(Intent.createChooser(intent, target.toString()));
-            finishAffinity();
-            System.exit(0);
+            quit();
         } else if (appLinkAction.equals(Intent.ACTION_SEND)) {
             String txt = appLinkIntent.getStringExtra(Intent.EXTRA_TEXT);
             if (txt != null) {
-                result = new UrlHandler(blh, txt).sanitize();
+                result = new UrlHandler(this, blh, txt).sanitize();
+                if (result == null) quit();
+
                 // share again
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
                 intent.putExtra(Intent.EXTRA_TEXT, result.toString());
                 startActivity(Intent.createChooser(intent, "Share link via..."));
             }
-            finishAffinity();
-            System.exit(0);
+            quit();
         }
 
         setContentView(R.layout.activity_main);
@@ -78,5 +77,10 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void quit() {
+        finishAffinity();
+        System.exit(0);
     }
 }
