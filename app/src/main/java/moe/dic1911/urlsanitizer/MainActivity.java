@@ -112,12 +112,12 @@ public class MainActivity extends AppCompatActivity {
         ArrayList <Intent> targetedShareIntents = new ArrayList<>();
         Intent rawIntent = createShareIntent(action, result);
 
-        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             targetedShareIntents.add(rawIntent);
             return targetedShareIntents;
         }
 
-        List <ResolveInfo> resolvedActivities = getPackageManager().queryIntentActivities(rawIntent,0);//PackageManager.MATCH_ALL);
+        List <ResolveInfo> resolvedActivities = getPackageManager().queryIntentActivities(rawIntent,0);
 
         for (ResolveInfo info : resolvedActivities) {
             if (info.activityInfo.packageName.toLowerCase(Locale.ROOT).equals(getPackageName().toLowerCase(Locale.ROOT)))
@@ -155,11 +155,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return finalIntent;
-    }
-
-    protected boolean isDefaultBrowser () {
-        List <ResolveInfo> v = getPackageManager().queryIntentActivities(new Intent(Intent.ACTION_VIEW,Uri.parse("https://searx.info")),PackageManager.MATCH_DEFAULT_ONLY);
-        return v.size()==1 && v.get(0).activityInfo.packageName.toLowerCase(Locale.ROOT).equals(getPackageName().toLowerCase(Locale.ROOT));
     }
 
 }
