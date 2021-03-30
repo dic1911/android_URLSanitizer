@@ -2,11 +2,13 @@
 <resources>
     <string name="app_name">URLSanitizer</string>
     <string name="desc">本工具會嘗試以現有的規則來將URL後面用來追蹤使用者的參數移除</string>
-    <string name="txt_entry_list">輕按現有規則可將其移除</string>
+    <string name="txt_entry_list">輕按現有規則可將其移除, 輕按此處可重設所有規則</string>
     <string name="txt_new_entry_hint">輸入GET參數名稱</string>
     <string name="btn_add">新增規則</string>
     <string name="noti_added">已新增</string>
     <string name="noti_dup">已經存在該規則</string>
     <string name="unshortening">正在處理縮網址, 可能需要幾秒鐘...</string>
     <string name="unshorten_err">處理縮網址時發生錯誤</string>
+    <string name="txt_entry_list_pre_reset">再次輕按此處確認重設</string>
+    <string name="txt_entry_list_reset_done">已將規則重設, 請重新打開本頁</string>
 </resources>

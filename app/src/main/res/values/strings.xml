@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">URLSanitizer</string>
     <string name="desc">This app tries to cleanup URLs with GET query that tracks users, tap on the floating button to check saved rules.</string>
-    <string name="txt_entry_list">Tap on the query text to remove entry</string>
+    <string name="txt_entry_list">Tap on the query text to remove entry, tap on this text to reset</string>
     <string name="txt_new_entry_hint">Enter GET query key</string>
     <string name="btn_add">Add Entry</string>
     <string name="noti_added">Added</string>
@@ -9,4 +9,6 @@
     <string name="txt_icon_credit" translatable="false">App icon made by Smashicons from Flaticon</string>
     <string name="unshortening">Handling short URL, this may take a few secs...</string>
     <string name="unshorten_err">An error occurred when unshortening the URL.</string>
+    <string name="txt_entry_list_pre_reset">Tap again to reset entries to default ones</string>
+    <string name="txt_entry_list_reset_done">Entries are reset to default ones, please reenter this page manually</string>
 </resources>

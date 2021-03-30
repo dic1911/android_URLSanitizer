@@ -209,6 +209,11 @@ public class BlacklistHandler {
         return removeEntry(blacklist.indexOf(value));
     }
 
+    public void resetAll() {
+        blacklist = new ArrayList<>();;
+        initialize();
+    }
+
     public String getEntry(int index) {
         return blacklist.get(index);
     }
