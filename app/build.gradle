@@ -8,8 +8,8 @@ android {
         applicationId "moe.dic1911.urlsanitizer"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 8
-        versionName "1.4.0"
+        versionCode 9
+        versionName "1.4.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
