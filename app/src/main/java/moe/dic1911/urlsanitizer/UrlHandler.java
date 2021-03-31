@@ -25,11 +25,8 @@ public class UrlHandler {
     public Uri sanitize() {
         String host = url.getHost();
         if (isShorturl(host)) {
-            url = unshorten();
-            if (url == null) {
-                // failed to unshorten
-                return null;
-            }
+            Uri newUrl = unshorten();
+            url = (newUrl != null) ? newUrl : url;
         }
 
         String scheme = url.getScheme(), path = url.getPath(), query = url.getQuery();
