@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,6 +31,7 @@ public class EntryListActivity extends AppCompatActivity {
         textView = findViewById(R.id.txt_entry_list);
         textView.setOnClickListener(new View.OnClickListener() {
             Boolean confirmed = false;
+
             @Override
             public void onClick(View v) {
                 if (!confirmed) {

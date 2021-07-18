@@ -98,25 +98,25 @@ public class MainActivity extends AppCompatActivity {
         System.exit(0);
     }
 
-    protected void startChooserActivity (String action, Uri result, String chooserTitle) {
-        ArrayList <Intent> targetedShareIntents = buildTargetedShareIntents(action, result);
+    protected void startChooserActivity(String action, Uri result, String chooserTitle) {
+        ArrayList<Intent> targetedShareIntents = buildTargetedShareIntents(action, result);
 
         Intent targetIntent = targetedShareIntents.remove(0);
         Intent chooserIntent = Intent.createChooser(targetIntent, chooserTitle);
 
         Parcelable[] targetedShareParceledIntents = new Parcelable[targetedShareIntents.size()];
-        for (int i=0; i<targetedShareIntents.size(); ++i)
+        for (int i = 0; i < targetedShareIntents.size(); ++i)
             targetedShareParceledIntents[i] = targetedShareIntents.get(i);
 
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetedShareParceledIntents);
-        chooserIntent.putExtra(Intent.EXTRA_EXCLUDE_COMPONENTS, new ComponentName[] {new ComponentName(this, MainActivity.class)} );
+        chooserIntent.putExtra(Intent.EXTRA_EXCLUDE_COMPONENTS, new ComponentName[]{new ComponentName(this, MainActivity.class)});
 
         startActivity(chooserIntent);
 
     }
 
-    protected ArrayList <Intent> buildTargetedShareIntents (String action, Uri result) {
-        ArrayList <Intent> targetedShareIntents = new ArrayList<>();
+    protected ArrayList<Intent> buildTargetedShareIntents(String action, Uri result) {
+        ArrayList<Intent> targetedShareIntents = new ArrayList<>();
         Intent rawIntent = createShareIntent(action, result);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
             return targetedShareIntents;
         }
 
-        List <ResolveInfo> resolvedActivities = getPackageManager().queryIntentActivities(rawIntent,0);
+        List<ResolveInfo> resolvedActivities = getPackageManager().queryIntentActivities(rawIntent, 0);
 
         for (ResolveInfo info : resolvedActivities) {
             if (info.activityInfo.packageName.toLowerCase(Locale.ROOT).equals(getPackageName().toLowerCase(Locale.ROOT)))
@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         return targetedShareIntents;
     }
 
-    protected Intent createShareIntent (String action, Uri result) {
+    protected Intent createShareIntent(String action, Uri result) {
         Intent finalIntent = new Intent();
         finalIntent.setAction(action);
 

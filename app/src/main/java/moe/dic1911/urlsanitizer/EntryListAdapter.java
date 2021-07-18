@@ -14,6 +14,7 @@ public class EntryListAdapter extends RecyclerView.Adapter<EntryListAdapter.Entr
     public class EntryListHolder extends RecyclerView.ViewHolder {
         final public int id;
         final public TextView entry;
+
         public EntryListHolder(View v) {
             super(v);
             id = (count++);
@@ -28,7 +29,8 @@ public class EntryListAdapter extends RecyclerView.Adapter<EntryListAdapter.Entr
         }
     }
 
-    public EntryListAdapter() {}
+    public EntryListAdapter() {
+    }
 
     @NonNull
     @Override

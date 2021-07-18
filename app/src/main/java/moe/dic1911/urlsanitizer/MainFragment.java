@@ -49,11 +49,12 @@ public class MainFragment extends Fragment {
         });
         txt_new_entry.setOnKeyListener(new View.OnKeyListener() {
             private int c = 0;
+
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent event) {
-                if(keyCode == KEYCODE_ENTER) {
+                if (keyCode == KEYCODE_ENTER) {
                     Log.d("030", "ENTER");
-                    if ((++c)%2 == 1) // temp. workaround. this gets triggered twice in one tap somehow
+                    if ((++c) % 2 == 1) // temp. workaround. this gets triggered twice in one tap somehow
                         addEntry(view);
                     //return true;
                 }

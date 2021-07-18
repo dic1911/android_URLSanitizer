@@ -8,6 +8,7 @@ import java.net.URL;
 
 public class UnshortNetworkThread extends Thread implements Runnable {
     private Uri url, result = null;
+
     UnshortNetworkThread(Uri source) {
         this.url = source;
     }

@@ -166,7 +166,7 @@ public class BlacklistHandler {
 
             // handle wildcard
             if (e.endsWith("*"))
-                qMatch = query.startsWith(e.substring(0, e.length()-1));
+                qMatch = query.startsWith(e.substring(0, e.length() - 1));
             else if (!qMatch && e.startsWith("*"))
                 qMatch = query.endsWith(e.substring(1));
             else
@@ -174,7 +174,7 @@ public class BlacklistHandler {
 
             if (!hMatch) {
                 if (h.endsWith("*"))
-                    hMatch = host.startsWith(h.substring(0, h.length()-1));
+                    hMatch = host.startsWith(h.substring(0, h.length() - 1));
                 else if (h.startsWith("*"))
                     hMatch = host.endsWith(h.substring(1));
                 else
@@ -190,8 +190,8 @@ public class BlacklistHandler {
             return false;
         blacklist.add(query);
         prefs.edit()
-            .putString("blacklist", prefs.getString("blacklist", "") + "," + query)
-            .apply();
+                .putString("blacklist", prefs.getString("blacklist", "") + "," + query)
+                .apply();
         return true;
     }
 
@@ -210,7 +210,7 @@ public class BlacklistHandler {
     }
 
     public void resetAll() {
-        blacklist = new ArrayList<>();;
+        blacklist = new ArrayList<>();
         initialize();
     }
 
@@ -227,6 +227,6 @@ public class BlacklistHandler {
         for (String entry : blacklist)
             sb.append(entry).append(",");
 
-        return sb.subSequence(0, sb.length()-1).toString();
+        return sb.subSequence(0, sb.length() - 1).toString();
     }
 }
