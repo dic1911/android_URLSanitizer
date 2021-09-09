@@ -1,6 +1,7 @@
 package moe.dic1911.urlsanitizer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -43,6 +44,14 @@ public class EntryListActivity extends AppCompatActivity {
                 }
             }
         });
-
+        findViewById(R.id.btn_eximport).setOnClickListener(new View.OnClickListener() {
+            Boolean confirmed = false;
+            @Override
+            public void onClick(View v) {
+                Intent openImExportActivity = new Intent(EntryListActivity.this, ExImportActivity.class);
+                startActivity(openImExportActivity);
+                finishAffinity();
+            }
+        });
     }
 }

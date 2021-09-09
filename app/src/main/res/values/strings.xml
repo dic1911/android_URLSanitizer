@@ -11,4 +11,8 @@
     <string name="unshorten_err">An error occurred when unshortening the URL.</string>
     <string name="txt_entry_list_pre_reset">Tap again to reset entries to default ones</string>
     <string name="txt_entry_list_reset_done">Entries are reset to default ones, please reenter this page manually</string>
+    <string name="btn_eximport">Export / Import</string>
+    <string name="btn_export">Export rules</string>
+    <string name="btn_import">Import rules</string>
+    <string name="txt_import_note">Note: import will overwrite all the current rules!</string>
 </resources>

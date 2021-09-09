@@ -41,6 +41,7 @@ public class MainFragment extends Fragment {
         fragmentView = inflater.inflate(R.layout.fragment_main, container, false);
         txt_new_entry = fragmentView.findViewById(R.id.txt_new_entry);
         Button butt_add = fragmentView.findViewById(R.id.btn_add);
+        if (butt_add != null)
         butt_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

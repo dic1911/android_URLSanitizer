@@ -11,4 +11,8 @@
     <string name="unshorten_err">處理縮網址時發生錯誤</string>
     <string name="txt_entry_list_pre_reset">再次輕按此處確認重設</string>
     <string name="txt_entry_list_reset_done">已將規則重設, 請重新打開本頁</string>
+    <string name="btn_eximport">匯出 / 匯入</string>
+    <string name="btn_export">匯出規則</string>
+    <string name="btn_import">匯入規則</string>
+    <string name="txt_import_note">注意: 匯入功能將會覆蓋現有規則!</string>
 </resources>

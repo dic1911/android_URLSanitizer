@@ -3,6 +3,7 @@
     package="moe.dic1911.urlsanitizer">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-feature
         android:name="android.software.leanback"
         android:required="false" />
@@ -12,15 +13,15 @@
 
     <application
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:taskAffinity="android.task.browser"
-        android:theme="@style/Theme.MaterialComponents.DayNight.Dialog"
-        android:fullBackupContent="@xml/backup_descriptor">
-        <activity android:name="moe.dic1911.urlsanitizer.EntryListActivity" />
+        android:theme="@style/Theme.MaterialComponents.DayNight.Dialog">
+        <activity android:name=".EntryListActivity" />
         <activity
-            android:name="moe.dic1911.urlsanitizer.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -89,6 +90,8 @@
                 <data android:mimeType="text/*" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".ExImportActivity" />
     </application>
 
 </manifest>

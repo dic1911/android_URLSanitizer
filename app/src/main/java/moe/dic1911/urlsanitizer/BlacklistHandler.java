@@ -222,7 +222,7 @@ public class BlacklistHandler {
         return blacklist.size();
     }
 
-    private String buildPrefs() {
+    public String buildPrefs() {
         StringBuilder sb = new StringBuilder();
         for (String entry : blacklist)
             sb.append(entry).append(",");
