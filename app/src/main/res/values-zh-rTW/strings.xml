@@ -5,6 +5,7 @@
     <string name="txt_entry_list">輕按現有規則可將其移除, 輕按此處可重設所有規則</string>
     <string name="txt_new_entry_hint">輸入GET參數名稱</string>
     <string name="btn_add">新增規則</string>
+    <string name="noti_saved">已保存</string>
     <string name="noti_added">已新增</string>
     <string name="noti_dup">已經存在該規則</string>
     <string name="unshortening">正在處理縮網址, 可能需要幾秒鐘...</string>
@@ -15,4 +16,16 @@
     <string name="btn_export">匯出規則</string>
     <string name="btn_import">匯入規則</string>
     <string name="txt_import_note">注意: 匯入功能將會覆蓋現有規則!</string>
+    <string name="btn_privacy_redirect">隱私友善跳轉</string>
+    <string name="sw_privacy_redirect_enable">啟用隱私友善跳轉</string>
+    <string name="sw_redirect_youtube">重導向 YouTube 連結</string>
+    <string name="txt_hint_invidious">Invidious 實例域名</string>
+    <string name="sw_redirect_twitter">重導向 Twitter 連結</string>
+    <string name="txt_hint_nitter">Nitter 實例域名</string>
+    <string name="sw_redirect_reddit">重導向 Reddit 連結</string>
+    <string name="txt_hint_reddit">Libreddit/Teddit 實例域名</string>
+    <string name="sw_redirect_instagram">重導向 Instagram 連結</string>
+    <string name="txt_hint_instagram">Bibliogram 實例域名</string>
+    <string name="sw_redirect_moptt">重導向 MoPTT 連結到 ptt.cc</string>
+    <string name="sw_redirect_pixiv">重導向 Pixiv 連結到 pixiv.cat</string>
 </resources>

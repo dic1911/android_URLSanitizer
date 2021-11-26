@@ -45,11 +45,18 @@ public class EntryListActivity extends AppCompatActivity {
             }
         });
         findViewById(R.id.btn_eximport).setOnClickListener(new View.OnClickListener() {
-            Boolean confirmed = false;
             @Override
             public void onClick(View v) {
                 Intent openImExportActivity = new Intent(EntryListActivity.this, ExImportActivity.class);
                 startActivity(openImExportActivity);
+                finishAffinity();
+            }
+        });
+
+        findViewById(R.id.btn_priv_redir).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(EntryListActivity.this, PrivacyRedirectActivity.class));
                 finishAffinity();
             }
         });

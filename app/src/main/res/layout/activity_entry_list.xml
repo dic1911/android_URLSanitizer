@@ -18,13 +18,29 @@
             android:padding="15dp"
             android:text="@string/txt_entry_list" />
 
-        <Button
-            android:id="@+id/btn_eximport"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:orientation="horizontal"
             android:layout_margin="10dp"
-            android:text="@string/btn_eximport"/>
+            android:layout_gravity="center">
+
+            <Button
+                android:id="@+id/btn_priv_redir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:text="@string/btn_privacy_redirect"/>
+
+            <Button
+                android:id="@+id/btn_eximport"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:text="@string/btn_eximport"/>
+        </LinearLayout>
 
         <ScrollView
             android:layout_width="match_parent"

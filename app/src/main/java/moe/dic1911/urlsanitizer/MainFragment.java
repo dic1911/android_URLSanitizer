@@ -30,7 +30,7 @@ public class MainFragment extends Fragment {
         if (BlacklistHandler.getInstance().addEntry(txt_new_entry.getText().toString()))
             Snackbar.make(view, getString(R.string.noti_added), Snackbar.LENGTH_LONG).show();
         else
-            Snackbar.make(view, getString(R.string.noti_dup), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(view, getString(R.string.noti_saved), Snackbar.LENGTH_LONG).show();
     }
 
     @Override

@@ -1,5 +1,8 @@
 package moe.dic1911.urlsanitizer;
 
+import static moe.dic1911.urlsanitizer.Constants.PREFS_BLACKLIST;
+import static moe.dic1911.urlsanitizer.Constants.PREFS_BLACKLIST_VER;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -22,10 +25,10 @@ public class BlacklistHandler {
     public BlacklistHandler(Context c) {
         prefs = c.getSharedPreferences("main", Context.MODE_PRIVATE);
         blacklist = new ArrayList<>();
-        if (!prefs.contains("blacklist_ver")) {
+        if (!prefs.contains(PREFS_BLACKLIST_VER)) {
             initialize();
         } else {
-            Collections.addAll(blacklist, prefs.getString("blacklist", "").split(","));
+            Collections.addAll(blacklist, prefs.getString(PREFS_BLACKLIST, "").split(","));
         }
         if (blh == null) blh = this;
     }
@@ -146,8 +149,8 @@ public class BlacklistHandler {
         blacklist.add("wt_zmc");
 
         String result = buildPrefs();
-        prefs.edit().putString("blacklist", result).apply();
-        prefs.edit().putInt("blacklist_ver", BLACKLIST_VER).apply();
+        prefs.edit().putString(PREFS_BLACKLIST, result).apply();
+        prefs.edit().putInt(PREFS_BLACKLIST_VER, BLACKLIST_VER).apply();
     }
 
     public Boolean isBlacklisted(String host, String query) {
@@ -190,7 +193,7 @@ public class BlacklistHandler {
             return false;
         blacklist.add(query);
         prefs.edit()
-                .putString("blacklist", prefs.getString("blacklist", "") + "," + query)
+                .putString(PREFS_BLACKLIST, prefs.getString(PREFS_BLACKLIST, "") + "," + query)
                 .apply();
         return true;
     }
@@ -198,7 +201,7 @@ public class BlacklistHandler {
     public Boolean removeEntry(int index) {
         try {
             blacklist.remove(index);
-            prefs.edit().putString("blacklist", buildPrefs()).apply();
+            prefs.edit().putString(PREFS_BLACKLIST, buildPrefs()).apply();
         } catch (IndexOutOfBoundsException e) {
             return false;
         }

@@ -19,6 +19,9 @@
         android:supportsRtl="true"
         android:taskAffinity="android.task.browser"
         android:theme="@style/Theme.MaterialComponents.DayNight.Dialog">
+        <activity
+            android:name=".PrivacyRedirectActivity"
+            android:exported="false" />
         <activity android:name=".EntryListActivity" />
         <activity
             android:name=".MainActivity"
@@ -90,7 +93,6 @@
                 <data android:mimeType="text/*" />
             </intent-filter>
         </activity>
-
         <activity android:name=".ExImportActivity" />
     </application>
 

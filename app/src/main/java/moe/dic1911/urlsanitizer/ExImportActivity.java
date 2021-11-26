@@ -1,5 +1,7 @@
 package moe.dic1911.urlsanitizer;
 
+import static moe.dic1911.urlsanitizer.Constants.PREFS_BLACKLIST;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -73,7 +75,7 @@ public class ExImportActivity extends AppCompatActivity {
                         String res = sb.toString();
                         res = res.substring(0, res.indexOf("\0"));
                         Log.d(TAG_SAF + "-R", res);
-                        prefs.edit().putString("blacklist", res).apply();
+                        prefs.edit().putString(PREFS_BLACKLIST, res).apply();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

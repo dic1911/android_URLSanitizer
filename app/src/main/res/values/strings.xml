@@ -4,6 +4,7 @@
     <string name="txt_entry_list">Tap on the query text to remove entry, tap on this text to reset</string>
     <string name="txt_new_entry_hint">Enter GET query key</string>
     <string name="btn_add">Add Entry</string>
+    <string name="noti_saved">Saved</string>
     <string name="noti_added">Added</string>
     <string name="noti_dup">The entry already exists</string>
     <string name="txt_icon_credit" translatable="false">App icon made by Smashicons from Flaticon</string>
@@ -15,4 +16,16 @@
     <string name="btn_export">Export rules</string>
     <string name="btn_import">Import rules</string>
     <string name="txt_import_note">Note: import will overwrite all the current rules!</string>
+    <string name="btn_privacy_redirect">Privacy Redirect</string>
+    <string name="sw_privacy_redirect_enable">Enable privacy redirects</string>
+    <string name="sw_redirect_youtube">Redirect YouTube links</string>
+    <string name="txt_hint_invidious">Domain of Invidious instance</string>
+    <string name="sw_redirect_twitter">Redirect Twitter links</string>
+    <string name="txt_hint_nitter">Domain of Nitter instance</string>
+    <string name="sw_redirect_reddit">Redirect Reddit links</string>
+    <string name="txt_hint_reddit">Domain of Libreddit/Teddit instance</string>
+    <string name="sw_redirect_instagram">Redirect Instagram links</string>
+    <string name="txt_hint_instagram">Domain of Bibliogram instance</string>
+    <string name="sw_redirect_moptt">Redirect MoPTT links to ptt.cc</string>
+    <string name="sw_redirect_pixiv">Redirect Pixiv links to pixiv.cat</string>
 </resources>
