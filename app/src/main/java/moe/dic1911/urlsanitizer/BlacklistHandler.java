@@ -16,7 +16,7 @@ public class BlacklistHandler {
     private static ArrayList<String> blacklist;
     private static BlacklistHandler blh;
 
-    private static final int BLACKLIST_VER = 1;
+    private static final int BLACKLIST_VER = 2;
 
     public static BlacklistHandler getInstance() {
         return blh;
@@ -30,6 +30,9 @@ public class BlacklistHandler {
         } else {
             Collections.addAll(blacklist, prefs.getString(PREFS_BLACKLIST, "").split(","));
         }
+
+        updateBlacklist();
+
         if (blh == null) blh = this;
     }
 
@@ -41,6 +44,7 @@ public class BlacklistHandler {
 
         // twitter
         blacklist.add("s@twitter.com");
+        blacklist.add("t@twitter.com");
 
         // bilibili
         blacklist.add("spm_id_from");
@@ -151,6 +155,15 @@ public class BlacklistHandler {
         String result = buildPrefs();
         prefs.edit().putString(PREFS_BLACKLIST, result).apply();
         prefs.edit().putInt(PREFS_BLACKLIST_VER, BLACKLIST_VER).apply();
+    }
+
+    private void updateBlacklist() {
+        switch (prefs.getInt(PREFS_BLACKLIST_VER, 1)) {
+            case 1:
+                addEntry("t@twitter.com");
+            default:
+                prefs.edit().putInt(PREFS_BLACKLIST_VER, BLACKLIST_VER).apply();
+        }
     }
 
     public Boolean isBlacklisted(String host, String query) {
