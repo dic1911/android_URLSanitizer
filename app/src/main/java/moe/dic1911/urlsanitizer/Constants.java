@@ -28,4 +28,6 @@ public class Constants {
     public static final List<String> TWITTER_DOMAINS = Collections.singletonList("twitter.com");
     public static final List<String> REDDIT_DOMAINS = Arrays.asList("reddit.com", "www.reddit.com", "old.reddit.com");
     public static final List<String> INSTAGRAM_DOMAINS = Arrays.asList("instagram.com", "www.instagram.com", "instagr.am", "instagr.com");
+
+    public static final List<String> PIXIV_DOMAINS = Arrays.asList("www.pixiv.net", "i.pximg.net");
 }

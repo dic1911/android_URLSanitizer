@@ -39,7 +39,7 @@ public class UrlHandler {
 
         // Privacy Redirect :)
         host = checkHostForAlternative(url.getHost());
-        if (host.equals("www.pixiv.net") && prefs.getBoolean(PREFS_REDIR_PIXIV, true)) {
+        if (PIXIV_DOMAINS.contains(host) && prefs.getBoolean(PREFS_REDIR_PIXIV, true)) {
             return pixivHandler(url);
         } else if (host.equals("moptt.tw") && prefs.getBoolean(PREFS_REDIR_PIXIV, true)) {
             return mopttHandler(url);
@@ -103,7 +103,16 @@ public class UrlHandler {
 
     private Uri pixivHandler(Uri url) {
         String id;
-        if (url.getQueryParameterNames().contains("illust_id")) {
+        if (url.getAuthority().equals(PIXIV_DOMAINS.get(1))) {
+            // fix pximg links
+            String[] splitted = url.getPath().split("/");
+            splitted = splitted[splitted.length - 1].split("_"); // ID, page index, (UNUSED)
+            id = splitted[0];
+            String index = splitted[1].replace("p", "");
+
+            if (!index.equals("0"))
+                id += ("-" + index);
+        } else if (url.getQueryParameterNames().contains("illust_id")) {
             id = url.getQueryParameter("illust_id");
         } else {
             String[] path = url.getPath().split("/");
