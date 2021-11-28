@@ -37,14 +37,6 @@ public class UrlHandler {
 
         String scheme = url.getScheme(), path = url.getPath(), query = url.getQuery();
 
-        // Privacy Redirect :)
-        host = checkHostForAlternative(url.getHost());
-        if (PIXIV_DOMAINS.contains(host) && prefs.getBoolean(PREFS_REDIR_PIXIV, true)) {
-            return pixivHandler(url);
-        } else if (host.equals("moptt.tw") && prefs.getBoolean(PREFS_REDIR_PIXIV, true)) {
-            return mopttHandler(url);
-        }
-
         Uri.Builder builder = new Uri.Builder().scheme(scheme).authority(host);
 
         // fuck amazon
@@ -57,6 +49,14 @@ public class UrlHandler {
             for (String q : url.getQueryParameterNames())
                 if (!blh.isBlacklisted(host, q))
                     builder.appendQueryParameter(q, url.getQueryParameter(q));
+
+        // Privacy Redirect :)
+        host = checkHostForAlternative(url.getHost());
+        if (PIXIV_DOMAINS.contains(host) && prefs.getBoolean(PREFS_REDIR_PIXIV, true)) {
+            return pixivHandler(url);
+        } else if (host.equals("moptt.tw") && prefs.getBoolean(PREFS_REDIR_PIXIV, true)) {
+            return mopttHandler(url);
+        }
 
 
         return builder.build();
