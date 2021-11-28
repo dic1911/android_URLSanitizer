@@ -29,7 +29,7 @@ public class UrlHandler {
     }
 
     public Uri sanitize() {
-        String host = url.getHost();
+        String host = url.getHost(), oHost = host;
         if (isShorturl(host)) {
             Uri newUrl = unshorten();
             url = (newUrl != null) ? newUrl : url;
@@ -38,7 +38,7 @@ public class UrlHandler {
         String scheme = url.getScheme(), path = url.getPath(), query = url.getQuery();
 
         // Privacy Redirect :)
-        host = checkHostForAlternative(url.getHost());
+        host = checkHostForAlternative(host);
         if (PIXIV_DOMAINS.contains(host) && prefs.getBoolean(PREFS_REDIR_PIXIV, true)) {
             return pixivHandler(url);
         } else if (host.equals("moptt.tw") && prefs.getBoolean(PREFS_REDIR_PIXIV, true)) {
@@ -55,7 +55,7 @@ public class UrlHandler {
 
         if (query != null)
             for (String q : url.getQueryParameterNames())
-                if (!blh.isBlacklisted(host, q))
+                if (!blh.isBlacklisted(oHost, q))
                     builder.appendQueryParameter(q, url.getQueryParameter(q));
 
 
