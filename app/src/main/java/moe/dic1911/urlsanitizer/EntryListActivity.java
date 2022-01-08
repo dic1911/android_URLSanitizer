@@ -3,10 +3,13 @@ package moe.dic1911.urlsanitizer;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,6 +61,19 @@ public class EntryListActivity extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(new Intent(EntryListActivity.this, PrivacyRedirectActivity.class));
                 finishAffinity();
+            }
+        });
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        final LinearLayout body = findViewById(R.id.body);
+        body.post(new Runnable() {
+            @Override
+            public void run() {
+                if(body.getWidth() < 800)
+                    ((LinearLayout)findViewById(R.id.btn_container)).setOrientation(LinearLayout.VERTICAL);
             }
         });
     }
