@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 Uri target = result;
                 intent.setData(target);
 
-                if (Build.VERSION.SDK_INT > 30) {
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.R) {
                     Toast.makeText(getApplicationContext(), target.toString(), Toast.LENGTH_LONG).show();
                 }
 
