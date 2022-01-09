@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), target.toString(), Toast.LENGTH_LONG).show();
                 }
 
-                startActivity(Intent.createChooser(intent, target.toString()));
+                startChooserActivity(Intent.ACTION_VIEW, result, result.toString());
                 quit();
             } else if (appLinkAction.equals(Intent.ACTION_SEND)) {
                 String txt = appLinkIntent.getStringExtra(Intent.EXTRA_TEXT);
