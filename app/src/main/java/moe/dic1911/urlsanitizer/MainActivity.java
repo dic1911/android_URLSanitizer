@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -45,6 +46,11 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 Uri target = result;
                 intent.setData(target);
+
+                if (Build.VERSION.SDK_INT > 30) {
+                    Toast.makeText(getApplicationContext(), target.toString(), Toast.LENGTH_LONG).show();
+                }
+
                 startActivity(Intent.createChooser(intent, target.toString()));
                 quit();
             } else if (appLinkAction.equals(Intent.ACTION_SEND)) {
