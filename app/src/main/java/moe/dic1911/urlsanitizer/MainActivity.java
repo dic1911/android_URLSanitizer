@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(Intent.ACTION_SEND);
                     intent.setType("text/plain");
                     intent.putExtra(Intent.EXTRA_TEXT, result.toString());
-                    startActivity(Intent.createChooser(intent, "Share link via..."));
+                    startChooserActivity(Intent.ACTION_SEND, result, "Share link via...");
                 }
                 quit();
             }
