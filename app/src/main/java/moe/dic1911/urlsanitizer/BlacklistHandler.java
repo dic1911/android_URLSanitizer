@@ -16,7 +16,7 @@ public class BlacklistHandler {
     private static ArrayList<String> blacklist;
     private static BlacklistHandler blh;
 
-    private static final int BLACKLIST_VER = 2;
+    private static final int BLACKLIST_VER = 3;
 
     public static BlacklistHandler getInstance() {
         return blh;
@@ -161,6 +161,8 @@ public class BlacklistHandler {
         switch (prefs.getInt(PREFS_BLACKLIST_VER, 1)) {
             case 1:
                 addEntry("t@twitter.com");
+            case 2:
+                addEntry("si@*.spotify.com");
             default:
                 prefs.edit().putInt(PREFS_BLACKLIST_VER, BLACKLIST_VER).apply();
         }
