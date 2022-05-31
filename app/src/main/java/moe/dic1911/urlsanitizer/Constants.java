@@ -25,7 +25,7 @@ public class Constants {
     public static final String DEFAULT_INSTAGRAM_TARGET = "bibliogram.art";
 
     public static final List<String> YOUTUBE_DOMAINS = Arrays.asList("youtu.be", "youtube.com", "www.youtube.com");
-    public static final List<String> TWITTER_DOMAINS = Collections.singletonList("twitter.com");
+    public static final List<String> TWITTER_DOMAINS = Arrays.asList("twitter.com", "mobile.twitter.com");
     public static final List<String> REDDIT_DOMAINS = Arrays.asList("reddit.com", "www.reddit.com", "old.reddit.com");
     public static final List<String> INSTAGRAM_DOMAINS = Arrays.asList("instagram.com", "www.instagram.com", "instagr.am", "instagr.com");
 
