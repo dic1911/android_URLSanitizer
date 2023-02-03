@@ -33,6 +33,10 @@ public class UrlHandler {
         if (isShorturl(host)) {
             Uri newUrl = unshorten();
             url = (newUrl != null) ? newUrl : url;
+
+            // update host after handling short url
+            host = url.getHost();
+            oHost = host;
         }
 
         String scheme = url.getScheme(), path = url.getPath(), query = url.getQuery();
