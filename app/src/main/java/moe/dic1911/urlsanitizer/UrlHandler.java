@@ -45,7 +45,7 @@ public class UrlHandler {
         host = checkHostForAlternative(host);
         if (PIXIV_DOMAINS.contains(host) && prefs.getBoolean(PREFS_REDIR_PIXIV, true)) {
             return pixivHandler(url);
-        } else if (host.equals("moptt.tw") && prefs.getBoolean(PREFS_REDIR_PIXIV, true)) {
+        } else if (host.equals("moptt.tw") && prefs.getBoolean(PREFS_REDIR_MOPTT, true)) {
             return mopttHandler(url);
         }
 
