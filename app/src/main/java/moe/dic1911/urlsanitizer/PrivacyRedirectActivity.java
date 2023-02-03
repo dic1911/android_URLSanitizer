@@ -22,7 +22,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 public class PrivacyRedirectActivity extends AppCompatActivity {
 
     private static SharedPreferences prefs;
-    private SwitchMaterial master, yt, twi, rdt, ig, moptt, pixiv;
+    private SwitchMaterial master, yt, twi, rdt, ig, moptt, pixiv, twimg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,7 @@ public class PrivacyRedirectActivity extends AppCompatActivity {
         ig = findViewById(R.id.sw_redir_ig);
         moptt = findViewById(R.id.sw_redir_moptt);
         pixiv = findViewById(R.id.sw_redir_pixiv);
+        twimg = findViewById(R.id.sw_redir_twimg);
 
         setupSwitch(master, PREFS_PRIVACY_REDIRECT);
 
@@ -55,6 +56,7 @@ public class PrivacyRedirectActivity extends AppCompatActivity {
 
         setupSwitch(moptt, PREFS_REDIR_MOPTT);
         setupSwitch(pixiv, PREFS_REDIR_PIXIV);
+        setupSwitch(twimg, PREFS_REDIR_TWIMG);
 
         refreshUIState();
     }

@@ -111,6 +111,14 @@
             android:layout_height="wrap_content"
             android:text="@string/sw_redirect_pixiv" />
 
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/sw_redir_twimg"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sw_redirect_twimg" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

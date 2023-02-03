@@ -18,6 +18,7 @@ public class Constants {
     public static final String PREFS_REDIR_INSTAGRAM_TARGET = "priv_redir_ig_target";
     public static final String PREFS_REDIR_MOPTT = "priv_redir_moptt";
     public static final String PREFS_REDIR_PIXIV = "priv_redir_pixiv";
+    public static final String PREFS_REDIR_TWIMG = "priv_redir_twimg";
 
     public static final String DEFAULT_YOUTUBE_TARGET = "incogtube.com";
     public static final String DEFAULT_TWITTER_TARGET = "nitter.net";

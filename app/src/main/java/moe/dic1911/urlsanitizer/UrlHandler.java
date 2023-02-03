@@ -47,6 +47,8 @@ public class UrlHandler {
             return pixivHandler(url);
         } else if (host.equals("moptt.tw") && prefs.getBoolean(PREFS_REDIR_MOPTT, true)) {
             return mopttHandler(url);
+        } else if (host.equals("pbs.twimg.com") && prefs.getBoolean(PREFS_REDIR_TWIMG, true)) {
+            return twimgHandler(url);
         }
 
         Uri.Builder builder = new Uri.Builder().scheme(scheme).authority(host);
@@ -134,6 +136,13 @@ public class UrlHandler {
         path += splitted[0] + "/" + tmp.replace(splitted[0] + ".", "") + ".html";
         ret.path(path);
 
+        return ret.build();
+    }
+
+    private Uri twimgHandler(Uri url) {
+        String path = url.getPath().split("\\.")[0];
+        Uri.Builder ret = new Uri.Builder().scheme(url.getScheme()).authority(url.getHost()).path(path);
+        ret.appendQueryParameter("format", "png").appendQueryParameter("name", "large");
         return ret.build();
     }
 }
