@@ -1,6 +1,7 @@
 package moe.dic1911.urlsanitizer;
 
 import android.net.Uri;
+import android.util.Log;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -24,6 +25,8 @@ public class UnshortNetworkThread extends Thread implements Runnable {
                 con = (HttpURLConnection) new URL(result).openConnection();
             }
         } catch (IOException e) {
+            Log.e("urlSan", String.format("error occurred while unshortening: %s", e.getMessage()));
+            e.printStackTrace();
             result = "http://error.030/";
         }
         this.result = Uri.parse(result);
