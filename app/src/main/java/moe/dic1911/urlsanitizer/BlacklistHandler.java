@@ -45,6 +45,9 @@ public class BlacklistHandler {
         // twitter
         blacklist.add("s@twitter.com");
         blacklist.add("t@twitter.com");
+        blacklist.add("t@x.com");
+        blacklist.add("s@x.com");
+        blacklist.add("si@x.com");
 
         // bilibili
         blacklist.add("spm_id_from");
@@ -149,8 +152,12 @@ public class BlacklistHandler {
         // Youtube
         blacklist.add("feature@youtube.com");
         blacklist.add("kw@youtube.com");
+        blacklist.add("si@youtu.be");
+        blacklist.add("si@youtube.com");
         // Zeit.de
         blacklist.add("wt_zmc");
+        // Spotify
+        blacklist.add("si@*.spotify.com");
 
         String result = buildPrefs();
         prefs.edit().putString(PREFS_BLACKLIST, result).apply();
