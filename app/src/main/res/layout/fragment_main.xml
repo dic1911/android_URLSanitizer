@@ -39,6 +39,15 @@
             android:layout_marginHorizontal="55dp"
             android:text="@string/btn_add" />
 
+        <Button
+            android:id="@+id/btn_clipboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="55dp"
+            android:text="@string/btn_clipboard" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

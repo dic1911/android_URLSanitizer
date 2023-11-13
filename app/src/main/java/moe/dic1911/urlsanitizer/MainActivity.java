@@ -2,7 +2,6 @@ package moe.dic1911.urlsanitizer;
 
 import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
@@ -19,51 +18,52 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
+    public BlacklistHandler blacklistHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Handle link
-        final BlacklistHandler blh = new BlacklistHandler(getApplicationContext());
+        blacklistHandler = new BlacklistHandler(getApplicationContext());
         Intent appLinkIntent = getIntent();
         String appLinkAction = appLinkIntent.getAction();
         Uri appLinkData = appLinkIntent.getData();
-        Uri result;
+        String result;
         if (appLinkAction != null) {
             if (appLinkAction.equals(Intent.ACTION_VIEW) && appLinkData != null) {
                 // handle query and stuff then rebuild the uri
-                result = new UrlHandler(this, blh, appLinkData).sanitize();
+                result = new UrlHandler(this, blacklistHandler, appLinkData).sanitize();
                 if (result == null) quit();
 
                 // open link
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                Uri target = result;
+                Uri target = Uri.parse(result);
                 intent.setData(target);
 
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.R) {
                     Toast.makeText(getApplicationContext(), target.toString(), Toast.LENGTH_LONG).show();
                 }
 
-                startChooserActivity(Intent.ACTION_VIEW, result, result.toString());
+                startChooserActivity(Intent.ACTION_VIEW, target, result);
                 quit();
             } else if (appLinkAction.equals(Intent.ACTION_SEND)) {
                 String txt = appLinkIntent.getStringExtra(Intent.EXTRA_TEXT);
                 if (txt != null) {
-                    result = new UrlHandler(this, blh, txt).sanitize();
+                    UrlHandler handler = new UrlHandler(this, blacklistHandler, txt);
+                    result = handler.sanitize();
                     if (result == null) quit();
 
                     // share again
                     Intent intent = new Intent(Intent.ACTION_SEND);
                     intent.setType("text/plain");
-                    intent.putExtra(Intent.EXTRA_TEXT, result.toString());
-                    startChooserActivity(Intent.ACTION_SEND, result, "Share link via...");
+                    intent.putExtra(Intent.EXTRA_TEXT, result);
+//                    startChooserActivity(Intent.ACTION_SEND, handler.getFirstUri(), "Share link via...");
+                    startActivity(Intent.createChooser(intent, "Share via..."));
                 }
                 quit();
             }

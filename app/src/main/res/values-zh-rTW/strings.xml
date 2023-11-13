@@ -9,6 +9,7 @@
     <string name="noti_added">已新增</string>
     <string name="noti_dup">已經存在該規則</string>
     <string name="unshortening">正在處理縮網址, 可能需要幾秒鐘...</string>
+    <string name="btn_clipboard">清理剪貼簿內容</string>
     <string name="unshorten_err">處理縮網址時發生錯誤</string>
     <string name="txt_entry_list_pre_reset">再次輕按此處確認重設</string>
     <string name="txt_entry_list_reset_done">已將規則重設, 請重新打開本頁</string>
@@ -29,4 +30,6 @@
     <string name="sw_redirect_moptt">重導向 MoPTT 連結到 ptt.cc</string>
     <string name="sw_redirect_pixiv">重導向 Pixiv 連結到 pixiv.cat</string>
     <string name="sw_redirect_twimg">自動修改Twitter圖片連結為最佳畫質PNG</string>
+    <string name="clipboard_err">處理剪貼簿內容時發生錯誤</string>
+    <string name="clipboard_sanitized">剪貼簿內網址已清理完畢</string>
 </resources>

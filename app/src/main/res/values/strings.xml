@@ -4,12 +4,15 @@
     <string name="txt_entry_list">Tap on the query text to remove entry, tap on this text to reset</string>
     <string name="txt_new_entry_hint">Enter GET query key</string>
     <string name="btn_add">Add Entry</string>
+    <string name="btn_clipboard">Sanitize clipboard</string>
     <string name="noti_saved">Saved</string>
     <string name="noti_added">Added</string>
     <string name="noti_dup">The entry already exists</string>
     <string name="txt_icon_credit" translatable="false">App icon made by Smashicons from Flaticon</string>
     <string name="unshortening">Handling short URL, this may take a few secs...</string>
     <string name="unshorten_err">An error occurred when unshortening the URL.</string>
+    <string name="clipboard_err">Error handling data from clipboard, is it empty?</string>
+    <string name="clipboard_sanitized">Url in clipboard is now sanitized :)</string>
     <string name="txt_entry_list_pre_reset">Tap again to reset entries to default ones</string>
     <string name="txt_entry_list_reset_done">Entries are reset to default ones, please reenter this page manually</string>
     <string name="btn_eximport">Export / Import</string>
