@@ -59,7 +59,7 @@ public class UrlHandler {
             source = (newUrl != null) ? newUrl : source;
 
             // update host after handling short url
-            host = url.getHost();
+            host = source.getHost();
             oHost = host;
         }
 
