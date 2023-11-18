@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">URLSanitizer</string>
+    <string name="desc">此应用程序会尝试清理URL中跟踪用户的GET参数，点击浮动的“笔”按钮以检查保存的规则</string>
+    <string name="txt_entry_list">点击下方规则可删除规则条目，点击*此文本*将复原修改</string>
+    <string name="txt_new_entry_hint">输入GET请求查询键</string>
+    <string name="btn_add">新增规则项</string>
+    <string name="btn_clipboard">处理剪贴板</string>
+    <string name="noti_saved">已保存</string>
+    <string name="noti_added">已添加</string>
+    <string name="noti_dup">规则已存在</string>
+    <string name="unshortening">处理短网址中，稍等数秒...</string>
+    <string name="unshorten_err">尝试还原网址缩小时出错</string>
+    <string name="clipboard_err">处理剪贴板时出现问题，剪贴板空的吗？</string>
+    <string name="clipboard_sanitized">剪贴板内网址处理好了(❁´◡`❁)</string>
+    <string name="txt_entry_list_pre_reset">再次点击即恢复默认设置</string>
+    <string name="txt_entry_list_reset_done">规则已重置，请自行重新打开本页</string>
+    <string name="btn_eximport">导出 / 导入</string>
+    <string name="btn_export">导出规则</string>
+    <string name="btn_import">导入规则</string>
+    <string name="txt_import_note">小心：导入功能会覆写当前规则</string>
+    <string name="btn_privacy_redirect">隐私化跳转</string>
+    <string name="sw_privacy_redirect_enable">启用跳转隐私化</string>
+    <string name="sw_redirect_youtube">重定向YouTube链接</string>
+    <string name="txt_hint_invidious">Invidious域名</string>
+    <string name="sw_redirect_twitter">重定向X (Twitter) 链接</string>
+    <string name="txt_hint_nitter">Nitter实例域名</string>
+    <string name="sw_redirect_reddit">重定向Reddit链接</string>
+    <string name="txt_hint_reddit">Libreddit/Teddit实例域名</string>
+    <string name="sw_redirect_instagram">重定向Instagram链接</string>
+    <string name="txt_hint_instagram">Bibiliogram实例域名</string>
+    <string name="sw_redirect_moptt">将MoPTT链接重定向至ptt.cc</string>
+    <string name="sw_redirect_pixiv">重定向Pixiv链接至pixiv.cat</string>
+    <string name="sw_redirect_twimg">自动增强X (Twitter)图像链接画质</string>
+</resources>
