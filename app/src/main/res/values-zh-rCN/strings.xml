@@ -9,7 +9,7 @@
     <string name="noti_saved">已保存</string>
     <string name="noti_added">已添加</string>
     <string name="noti_dup">规则已存在</string>
-    <string name="unshortening">处理短网址中，稍等数秒...</string>
+    <string name="unshortening">处理短网址中，稍等数秒…</string>
     <string name="unshorten_err">尝试还原网址缩小时出错</string>
     <string name="clipboard_err">处理剪贴板时出现问题，剪贴板空的吗？</string>
     <string name="clipboard_sanitized">剪贴板内网址处理好了(❁´◡`❁)</string>
