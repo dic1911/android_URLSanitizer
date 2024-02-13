@@ -19,7 +19,7 @@ public class UrlHandler {
     private ArrayList<Uri> urls;
     private final BlacklistHandler blh;
     private final SharedPreferences prefs;
-    private static final String[] shorturl = {"bit.ly", "goo.gl", "reurl.cc", "tinyurl.com"};
+    private static final String[] shorturl = {"bit.ly", "goo.gl", "reurl.cc", "t.co", "tinyurl.com"};
 
     // Pattern for recognizing a URL, based off RFC 3986
     private static final Pattern urlPattern = Pattern.compile(
