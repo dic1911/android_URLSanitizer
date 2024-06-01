@@ -6,7 +6,6 @@ import java.util.List;
 
 public class Constants {
     public static final String PREFS_BLACKLIST = "blacklist";
-    public static final String PREFS_BLACKLIST_VER = "blacklist_ver";
     public static final String PREFS_PRIVACY_REDIRECT = "priv_redir";
     public static final String PREFS_REDIR_YOUTUBE = "priv_redir_yt";
     public static final String PREFS_REDIR_YOUTUBE_TARGET = "priv_redir_yt_target";
