@@ -81,7 +81,7 @@ public class UrlHandler {
         if (path.split("=")[0].endsWith("ref"))
             path = path.split("ref")[0];
 
-        builder.path(path);
+        builder.appendEncodedPath(path);
 
         if (query != null)
             for (String q : source.getQueryParameterNames())
@@ -176,14 +176,14 @@ public class UrlHandler {
         String tmp = url.getPath().split("/")[2];
         String[] splitted = tmp.split("\\.");
         path += splitted[0] + "/" + tmp.replace(splitted[0] + ".", "") + ".html";
-        ret.path(path);
+        ret.appendEncodedPath(path);
 
         return ret.build();
     }
 
     private Uri twimgHandler(Uri url) {
         String path = url.getPath().split("\\.")[0];
-        Uri.Builder ret = new Uri.Builder().scheme(url.getScheme()).authority(url.getHost()).path(path);
+        Uri.Builder ret = new Uri.Builder().scheme(url.getScheme()).authority(url.getHost()).appendEncodedPath(path);
         ret.appendQueryParameter("format", "png").appendQueryParameter("name", "large");
         return ret.build();
     }
