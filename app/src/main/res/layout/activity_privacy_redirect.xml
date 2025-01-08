@@ -1,124 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PrivacyRedirectActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="50dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/sw_priv_redir"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sw_privacy_redirect_enable" />
-
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="20dp"
-            android:background="@android:color/darker_gray"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="50dp">
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/sw_redir_yt"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sw_redirect_youtube" />
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/sw_priv_redir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="@string/sw_privacy_redirect_enable" />
 
-        <EditText
-            android:id="@+id/txt_yt_target"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textUri"
-            android:hint="@string/txt_hint_invidious"
-            android:importantForAutofill="no" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="@android:color/darker_gray" />
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/sw_redir_twi"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sw_redirect_twitter" />
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/sw_redir_yt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="@string/sw_redirect_youtube" />
 
-        <EditText
-            android:id="@+id/txt_twi_target"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textUri"
-            android:hint="@string/txt_hint_nitter"
-            android:importantForAutofill="no" />
+            <EditText
+                android:id="@+id/txt_yt_target"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/txt_hint_invidious"
+                android:importantForAutofill="no"
+                android:inputType="textUri" />
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/sw_redir_rdt"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sw_redirect_reddit" />
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/sw_redir_twi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="@string/sw_redirect_twitter" />
 
-        <EditText
-            android:id="@+id/txt_rdt_target"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textUri"
-            android:hint="@string/txt_hint_reddit"
-            android:importantForAutofill="no" />
+            <EditText
+                android:id="@+id/txt_twi_target"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/txt_hint_nitter"
+                android:importantForAutofill="no"
+                android:inputType="textUri" />
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/sw_redir_ig"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sw_redirect_instagram" />
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/sw_redir_rdt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="@string/sw_redirect_reddit" />
 
-        <EditText
-            android:id="@+id/txt_ig_target"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textUri"
-            android:hint="@string/txt_hint_instagram"
-            android:importantForAutofill="no" />
+            <EditText
+                android:id="@+id/txt_rdt_target"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/txt_hint_reddit"
+                android:importantForAutofill="no"
+                android:inputType="textUri" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="20dp"
-            android:background="@android:color/darker_gray"/>
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/sw_redir_ig"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="@string/sw_redirect_instagram" />
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/sw_redir_moptt"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sw_redirect_moptt" />
+            <EditText
+                android:id="@+id/txt_ig_target"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/txt_hint_instagram"
+                android:importantForAutofill="no"
+                android:inputType="textUri" />
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/sw_redir_pixiv"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sw_redirect_pixiv" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="@android:color/darker_gray" />
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/sw_redir_twimg"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sw_redirect_twimg" />
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/sw_redir_moptt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="@string/sw_redirect_moptt" />
 
-    </LinearLayout>
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/sw_redir_pixiv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="@string/sw_redirect_pixiv" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/sw_redir_twimg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="@string/sw_redirect_twimg" />
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
