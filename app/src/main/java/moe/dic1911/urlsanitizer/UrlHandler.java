@@ -81,7 +81,8 @@ public class UrlHandler {
         if (path.split("=")[0].endsWith("ref"))
             path = path.split("ref")[0];
 
-        builder.appendEncodedPath(path);
+        // trim first slash
+        builder.appendEncodedPath(path.replaceFirst("^/", ""));
 
         if (query != null)
             for (String q : source.getQueryParameterNames())
