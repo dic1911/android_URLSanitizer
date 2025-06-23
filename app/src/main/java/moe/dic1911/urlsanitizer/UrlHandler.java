@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -51,7 +53,8 @@ public class UrlHandler {
         prefs = c.getSharedPreferences("main", Context.MODE_PRIVATE);
     }
 
-    private Uri doSanitize(Uri source) {
+    // Uri or String
+    private Object doSanitize(Uri source) {
         String host = source.getHost(), oHost = host;
         if (host == null) return source;
         if (isShorturl(host)) {
@@ -61,6 +64,31 @@ public class UrlHandler {
             // update host after handling short url
             host = source.getHost();
             oHost = host;
+        } else if (host.endsWith("google.com")) {
+            String path = source.getPath();
+            String query = source.getQuery();
+
+            if (query != null && !query.isEmpty()) {
+                for (String pair : query.split("&")) {
+                    int idx = pair.indexOf('=');
+                    if (idx <= 0) continue;
+                    String key = pair.substring(0, idx);
+                    String value = pair.substring(idx + 1);
+                    if ("/url".equals(path) && "url".equals(key)) {
+                        try {
+                            return doSanitize(Uri.parse(URLDecoder.decode(value, "UTF-8")));
+                        } catch (UnsupportedEncodingException e) {
+                            Log.e("030-goo", "failed to decode url from query", e);
+                        }
+                    } else if ("/search".equals(path) && "q".equals(key)) {
+                        try {
+                            return URLDecoder.decode(value, "UTF-8");
+                        } catch (UnsupportedEncodingException e) {
+                            Log.e("030-goo", "failed to decode search query from query", e);
+                        }
+                    }
+                }
+            }
         }
 
         String scheme = source.getScheme(), path = source.getPath(), query = source.getQuery();
@@ -99,16 +127,16 @@ public class UrlHandler {
         }
         for (int i = 0; i < urls.size(); i++) {
             Uri source = urls.get(i);
-            Uri sanitizedUri = doSanitize(source);
-            String sanitized = sanitizedUri.toString();
+            Object result = doSanitize(source);
+            String sanitized = (result instanceof Uri) ? result.toString() : (String) result;
             data = data.replace(source.toString(), sanitized);
-            urls.set(i, sanitizedUri);
+            if (result instanceof Uri) urls.set(i, (Uri) result);
         }
         return data;
     }
 
     public Uri getFirstUri() {
-        return urls.size() > 0 ? urls.get(0) : null;
+        return !urls.isEmpty() ? urls.get(0) : null;
     }
 
     public Uri unshorten(Uri source) {
