@@ -67,20 +67,22 @@ public class UrlHandler {
         } else if (host.endsWith("google.com")) {
             String path = source.getPath();
             String query = source.getQuery();
+            Boolean pathIsUrl = "/url".equals(path);
+            Boolean pathIsSearch = !pathIsUrl && "/search".equals(path);
 
-            if (query != null && !query.isEmpty()) {
+            if (query != null && !query.isEmpty() && (pathIsUrl || pathIsSearch)) {
                 for (String pair : query.split("&")) {
                     int idx = pair.indexOf('=');
                     if (idx <= 0) continue;
                     String key = pair.substring(0, idx);
                     String value = pair.substring(idx + 1);
-                    if ("/url".equals(path) && "url".equals(key)) {
+                    if (pathIsUrl && ("q".equals(key) || "url".equals(key))) {
                         try {
                             return doSanitize(Uri.parse(URLDecoder.decode(value, "UTF-8")));
                         } catch (UnsupportedEncodingException e) {
                             Log.e("030-goo", "failed to decode url from query", e);
                         }
-                    } else if ("/search".equals(path) && "q".equals(key)) {
+                    } else if (pathIsSearch && "q".equals(key)) {
                         try {
                             return URLDecoder.decode(value, "UTF-8");
                         } catch (UnsupportedEncodingException e) {
