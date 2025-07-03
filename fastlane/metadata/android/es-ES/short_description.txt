@@ -1,0 +1,1 @@
+Una herramienta simple para eliminar todas esas molestas consultas GET de rastreo en URLs.
