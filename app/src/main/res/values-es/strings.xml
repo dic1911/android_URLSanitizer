@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">URLSanitizer</string>
+    <string name="desc">Quita rastreadores de URLs. Toca el botón flotante para ver tus reglas.</string>
+    <string name="txt_entry_list">Toca un parámetro para borrarlo o toca este texto para resetear.</string>
+    <string name="txt_new_entry_hint">Nombre del parámetro</string>
+    <string name="btn_add">Agregar</string>
+    <string name="btn_clipboard">Limpiar portapapeles</string>
+    <string name="noti_saved">Listo</string>
+    <string name="noti_added">Agregado</string>
+    <string name="noti_dup">Ya existe</string>
+    <string name="txt_icon_credit" translatable="false">Ícono de Smashicons vía Flaticon</string>
+    <string name="unshortening">Desacortando URL, espera…</string>
+    <string name="unshorten_err">Ups, no se pudo desacortar.</string>
+    <string name="clipboard_err">Error con el portapapeles, ¿está vacío?</string>
+    <string name="clipboard_sanitized">Portapapeles limpio :)</string>
+    <string name="txt_entry_list_pre_reset">Toca otra vez para restaurar.</string>
+    <string name="txt_entry_list_reset_done">Entradas reiniciadas. Vuelve aquí.</string>
+    <string name="btn_eximport">Exportar/Importar</string>
+    <string name="btn_export">Exportar reglas</string>
+    <string name="btn_import">Importar reglas</string>
+    <string name="txt_import_note">Esto reemplazará tus reglas actuales.</string>
+    <string name="btn_privacy_redirect">Redirección privada</string>
+    <string name="sw_privacy_redirect_enable">Activar redirecciones privadas</string>
+    <string name="sw_redirect_youtube">Redirigir YouTube</string>
+    <string name="txt_hint_invidious">Dominio Invidious</string>
+    <string name="sw_redirect_twitter">Redirigir Twitter</string>
+    <string name="txt_hint_nitter">Dominio Nitter</string>
+    <string name="sw_redirect_reddit">Redirigir Reddit</string>
+    <string name="txt_hint_reddit">Dominio Libreddit/Teddit</string>
+    <string name="sw_redirect_instagram">Redirigir Instagram</string>
+    <string name="txt_hint_instagram">Dominio Bibliogram</string>
+    <string name="sw_redirect_moptt">Redirigir MoPTT a ptt.cc</string>
+    <string name="sw_redirect_pixiv">Redirigir Pixiv a pixiv.cat</string>
+    <string name="sw_redirect_twimg">Imágenes de Twitter HD</string>
+</resources>
