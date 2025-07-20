@@ -1,15 +1,18 @@
 Don't like those tracking GET queries from the big brothers? Here, this app got your back.
-Features:
 
-Cleanup URLs when opening link
-Sharing URLs to this app also cleans the URL
+<b>Features:</b>
 
-How to use:
-Opening a link: Simply open the link with this app first, and choose the app you want to use to open the link afterwards.
-Sharing a link: Share to this app first, and choose the app you want the link to share to afterwards.
-Adding missing GET query(ies): Open the app, fill the query in, then tap on "Add Entry" button.
+* Cleanup URLs when opening link
+* Sharing URLs to this app also cleans the URL
+
+<b>How to use:</b>
+
+* <b>Opening a link:</b> Simply open the link with this app first, and choose the app you want to use to open the link afterwards.
+* <b>Sharing a link:</b> Share to this app first, and choose the app you want the link to share to afterwards.
+* <b>Adding missing GET query(ies):</b> Open the app, fill the query in, then tap on "Add Entry" button.
+
 (Note. Wildcard is supported since 1.3.0, check default entries for usage)
 
-How it works:
+<b>How it works:</b>
 
 This app handles Android intent to open/share link, so the app can get the URL and modify it, get rid of those dirty query and create another intent for your original action.

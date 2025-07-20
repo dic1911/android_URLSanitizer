@@ -1,14 +1,18 @@
 ¿No te gustan esas molestas consultas GET de rastreo de los grandes hermanos? Esta app te cubre las espaldas.
 
 Funciones:
+
 - Limpiar URLs al abrir enlaces
 - Compartir URLs a esta app también limpia el enlace
 
 Cómo usarlo:
-Abrir un enlace: Simplemente ábrelo primero con esta app, luego elige la app donde quieres abrirlo.
-Compartir un enlace: Compártelo primero a esta app, luego selecciona dónde quieres enviarlo.
-Añadir consultas GET faltantes: Abre la app, ingresa la consulta y toca "Añadir Entrada".
+
+* Abrir un enlace: Simplemente ábrelo primero con esta app, luego elige la app donde quieres abrirlo.
+* Compartir un enlace: Compártelo primero a esta app, luego selecciona dónde quieres enviarlo.
+* Añadir consultas GET faltantes: Abre la app, ingresa la consulta y toca "Añadir Entrada".
+
 (Nota: Desde la versión 1.3.0 soporta wildcards, revisa las entradas predeterminadas para ver ejemplos)
 
 Cómo funciona:
+
 Esta app maneja intents de Android para abrir/compartir enlaces, modificando la URL para eliminar esas consultas de rastreo y crear un nuevo intent para tu acción original.
