@@ -1,0 +1,1 @@
+entferne die nervenden Tracking-Parameter aus URLs
