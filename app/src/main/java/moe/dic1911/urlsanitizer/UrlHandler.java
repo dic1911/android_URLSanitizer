@@ -91,6 +91,12 @@ public class UrlHandler {
                     }
                 }
             }
+        } else if (host.equals("go.bsky.app") && source.getPath() != null && source.getPath().endsWith("redirect")) {
+            try {
+                return doSanitize(Uri.parse(URLDecoder.decode(source.getQueryParameter("u"), "UTF-8")));
+            } catch (UnsupportedEncodingException e) {
+                Log.e("030-bsky", "failed to decode redirect target from query", e);
+            }
         }
 
         String scheme = source.getScheme(), path = source.getPath(), query = source.getQuery();
