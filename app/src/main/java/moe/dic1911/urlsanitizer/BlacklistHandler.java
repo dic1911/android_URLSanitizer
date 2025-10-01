@@ -4,327 +4,434 @@ import static moe.dic1911.urlsanitizer.Constants.PREFS_BLACKLIST;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.regex.Pattern;
 
 @SuppressWarnings("SpellCheckingInspection")
 public class BlacklistHandler {
     private static SharedPreferences prefs;
-    private static ArrayList<String> blacklist;
+    private static HashSet<String> blacklist; // union of defaults + custom (runtime)
+    private static HashSet<String> customBlacklist; // only user-defined (persisted)
+    private static HashSet<Pattern> blacklistRegex;
     private static BlacklistHandler blh;
+    private static final HashSet<String> defaultEntries = new HashSet<>();
+
+    private void addDefaultEntry(String entry) {
+        // add to in-memory only; do not persist
+        addEntry(entry, false, false);
+        defaultEntries.add(entry);
+    }
+
+    private static Pattern compileWildcardEntryToPattern(String entry) {
+        // Support optional host limiter after '@'. If no host specified, allow any host.
+        String e = entry;
+        String h = null;
+        int at = entry.indexOf('@');
+        if (at >= 0) {
+            e = entry.substring(0, at);
+            h = entry.substring(at + 1);
+        }
+
+        // If the user explicitly provides a raw regex with prefix "regex:" or wrapped with slashes /.../,
+        // compile it as-is (case-insensitive), matching against query@host.
+        if (e.startsWith("regex:")) {
+            String raw = e.substring("regex:".length());
+            String pattern = raw.contains("@") ? raw : ((h != null && !h.isEmpty()) ? raw + "@" + h : raw + "@.*");
+            return Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
+        }
+        if (e.length() >= 2 && e.startsWith("/") && e.endsWith("/")) {
+            String raw = e.substring(1, e.length() - 1);
+            String pattern = raw.contains("@") ? raw : ((h != null && !h.isEmpty()) ? raw + "@" + h : raw + "@.*");
+            return Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
+        }
+
+        // Convert wildcard syntax in both parts to regex.
+        String eRegex = wildcardToRegex(e);
+        String hRegex = (h == null || h.isEmpty()) ? ".*" : wildcardToRegex(h);
+        String finalRegex = "^" + eRegex + "@" + hRegex + "$";
+        return Pattern.compile(finalRegex, Pattern.CASE_INSENSITIVE);
+    }
+
+    private static String wildcardToRegex(String s) {
+        StringBuilder out = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            switch (c) {
+                case '*':
+                    out.append(".*");
+                    break;
+                case '.': case '\\': case '+': case '?': case '^': case '$':
+                case '(': case ')': case '[': case ']': case '{': case '}': case '|':
+                    out.append('\\').append(c);
+                    break;
+                default:
+                    out.append(c);
+            }
+        }
+        return out.toString();
+    }
 
     public static BlacklistHandler getInstance() {
         return blh;
     }
 
+    private static void rebuildRegexCache() {
+        if (blacklist == null) {
+            blacklistRegex = new HashSet<>();
+            return;
+        }
+        HashSet<Pattern> newSet = new HashSet<>(blacklist.size());
+        for (String q : blacklist) {
+            if (q == null) continue;
+            String trimmed = q.trim();
+            if (trimmed.isEmpty()) continue;
+            try {
+                newSet.add(compileWildcardEntryToPattern(trimmed));
+            } catch (Exception e) {
+                Log.e("030-regex", "failed to compile regex for str " + trimmed, e);
+            }
+        }
+        blacklistRegex = newSet;
+    }
+
     public BlacklistHandler(Context c) {
         prefs = c.getSharedPreferences("main", Context.MODE_PRIVATE);
-        blacklist = new ArrayList<>();
-        Collections.addAll(blacklist, prefs.getString(PREFS_BLACKLIST, "").split(","));
+        blacklist = new HashSet<>();
+        customBlacklist = new HashSet<>();
+
+        // Load persisted entries as custom rules (if any)
+        String persisted = prefs.getString(PREFS_BLACKLIST, "");
+        if (persisted != null && !persisted.isEmpty()) {
+            Collections.addAll(customBlacklist, persisted.split(","));
+        }
+
+        // Build default + custom in-memory
         initializeOrUpdate();
 
         if (blh == null) blh = this;
     }
 
     public void initializeOrUpdate() {
+        // reset the in-memory union set and load defaults first
+        blacklist.clear();
         // default blacklisted shit here
         // generic share/clipboard id (ex. fbclid, igshid...)
-        addEntry("*shid", false);
-        addEntry("*clid", false);
-        addEntry("*fb_action*", false);
-        addEntry("*fb_*", false);
-        addEntry("*gs_l", false);
-        addEntry("*mkt_tok", false);
-        addEntry("*otm_*", false);
-        addEntry("*cmpid", false);
-        addEntry("*_ga", false);
-        addEntry("*_gl", false);
-        addEntry("*__twitter_impression", false);
-        addEntry("*wt_*", false);
-        addEntry("*wtrid", false);
-        addEntry("Echobox", false);
-        addEntry("*spm", false);
-        addEntry("*vn*", false);
-        addEntry("*tracking_source", false);
-        addEntry("*ceneo_spo", false);
-        addEntry("*itm*", false);
-        addEntry("*__s", false);
-        addEntry("*__hsfp", false);
-        addEntry("*__hssc", false);
-        addEntry("*__hstc", false);
-        addEntry("*hsCtaTracking", false);
-        addEntry("*mc_*", false);
-        addEntry("*ml_subscriber*", false);
-        addEntry("*msclkid", false);
-        addEntry("*oly_anon_id", false);
-        addEntry("*oly_enc_id", false);
-        addEntry("*rb_clickid", false);
-        addEntry("*s_cid", false);
-        addEntry("*vero_*", false);
-        addEntry("*wickedid", false);
+        addDefaultEntry("*shid");
+        addDefaultEntry("*clid");
+        addDefaultEntry("*fb_action*");
+        addDefaultEntry("*fb_*");
+        addDefaultEntry("*gs_l");
+        addDefaultEntry("*mkt_tok");
+        addDefaultEntry("*otm_*");
+        addDefaultEntry("*cmpid");
+        addDefaultEntry("*_ga");
+        addDefaultEntry("*_gl");
+        addDefaultEntry("*__twitter_impression");
+        addDefaultEntry("*wt_*");
+        addDefaultEntry("*wtrid");
+        addDefaultEntry("Echobox");
+        addDefaultEntry("*spm");
+        addDefaultEntry("*vn*");
+        addDefaultEntry("*tracking_source");
+        addDefaultEntry("*ceneo_spo");
+        addDefaultEntry("*itm*");
+        addDefaultEntry("*__s");
+        addDefaultEntry("*__hsfp");
+        addDefaultEntry("*__hssc");
+        addDefaultEntry("*__hstc");
+        addDefaultEntry("*hsCtaTracking");
+        addDefaultEntry("*mc_*");
+        addDefaultEntry("*ml_subscriber*");
+        addDefaultEntry("*msclkid");
+        addDefaultEntry("*oly_anon_id");
+        addDefaultEntry("*oly_enc_id");
+        addDefaultEntry("*rb_clickid");
+        addDefaultEntry("*s_cid");
+        addDefaultEntry("*vero_*");
+        addDefaultEntry("*wickedid");
 
         // Google analytics
-        addEntry("utm*", false);
+        addDefaultEntry("utm*");
 
         // Action Map
-        addEntry("action_object_map", false);
-        addEntry("action_type_map", false);
-        addEntry("action_ref_map", false);
+        addDefaultEntry("action_object_map");
+        addDefaultEntry("action_type_map");
+        addDefaultEntry("action_ref_map");
 
         // AliExpress
-        addEntry("spm@aliexpress.com", false);
-        addEntry("scm@aliexpress.com", false);
-        addEntry("aff_platform", false);
-        addEntry("aff_trace_key", false);
+        addDefaultEntry("spm@aliexpress.com");
+        addDefaultEntry("scm@aliexpress.com");
+        addDefaultEntry("aff_platform");
+        addDefaultEntry("aff_trace_key");
 
         // Amazon
-        addEntry("pd_rd_*@amazon.*", false);
-        addEntry("_encoding@amazon.*", false);
-        addEntry("psc@amazon.*", false);
-        addEntry("tag@amazon.*", false);
-        addEntry("ref*@amazon.*", false);
-        addEntry("pf_rd_*@amazon.*", false);
-        addEntry("qid@amazon.*", false);
-        addEntry("srs@amazon.*", false);
-        addEntry("spIA@amazon.*", false);
-        addEntry("ms3_c@amazon.*", false);
-        addEntry("qualifier@amazon.*", false);
-        addEntry("smid@amazon.*", false);
-        addEntry("field_lbr_brands_browse-bin@amazon.*", false);
-        addEntry("th@amazon.*", false);
-        addEntry("sprefix@amazon.*", false);
-        addEntry("crid@amazon.*", false);
-        addEntry("keywords@amazon.*", false);
-        addEntry("cv_ct_*@amazon.*", false);
-        addEntry("linkCode@amazon.*", false);
-        addEntry("ascsubtag@amazon.*", false);
-        addEntry("aaxitk@amazon.*", false);
-        addEntry("hsa_cr_id@amazon.*", false);
-        addEntry("sb-ci-*@amazon.*", false);
-        addEntry("rnid@amazon.*", false);
-        addEntry("dchild@amazon.*", false);
-        addEntry("camp@amazon.*", false);
-        addEntry("creative*@amazon.*", false);
-        addEntry("s@amazon.*", false);
-        addEntry("content-id@amazon.*", false);
-        addEntry("dib@amazon.*", false);
-        addEntry("dib_tag@amazon.*", false);
+        addDefaultEntry("pd_rd_*@amazon.*");
+        addDefaultEntry("_encoding@amazon.*");
+        addDefaultEntry("psc@amazon.*");
+        addDefaultEntry("tag@amazon.*");
+        addDefaultEntry("ref*@amazon.*");
+        addDefaultEntry("pf_rd_*@amazon.*");
+        addDefaultEntry("qid@amazon.*");
+        addDefaultEntry("srs@amazon.*");
+        addDefaultEntry("spIA@amazon.*");
+        addDefaultEntry("ms3_c@amazon.*");
+        addDefaultEntry("qualifier@amazon.*");
+        addDefaultEntry("smid@amazon.*");
+        addDefaultEntry("field_lbr_brands_browse-bin@amazon.*");
+        addDefaultEntry("th@amazon.*");
+        addDefaultEntry("sprefix@amazon.*");
+        addDefaultEntry("crid@amazon.*");
+        addDefaultEntry("keywords@amazon.*");
+        addDefaultEntry("cv_ct_*@amazon.*");
+        addDefaultEntry("linkCode@amazon.*");
+        addDefaultEntry("ascsubtag@amazon.*");
+        addDefaultEntry("aaxitk@amazon.*");
+        addDefaultEntry("hsa_cr_id@amazon.*");
+        addDefaultEntry("sb-ci-*@amazon.*");
+        addDefaultEntry("rnid@amazon.*");
+        addDefaultEntry("dchild@amazon.*");
+        addDefaultEntry("camp@amazon.*");
+        addDefaultEntry("creative*@amazon.*");
+        addDefaultEntry("s@amazon.*");
+        addDefaultEntry("content-id@amazon.*");
+        addDefaultEntry("dib@amazon.*");
+        addDefaultEntry("dib_tag@amazon.*");
 
         // Amazon Campaign
-        addEntry("trk", false);
-        addEntry("trkCampaign", false);
-        addEntry("ga_*", false);
+        addDefaultEntry("trk");
+        addDefaultEntry("trkCampaign");
+        addDefaultEntry("ga_*");
 
         // Bilibili
-        addEntry("callback@bilibili.com", false);
-        addEntry("spm_id_from", false);
+        addDefaultEntry("callback@bilibili.com");
+        addDefaultEntry("spm_id_from");
 
         // Bing
-        addEntry("cvid@bing.com", false);
-        addEntry("form@bing.com", false);
-        addEntry("sk@bing.com", false);
-        addEntry("sp@bing.com", false);
-        addEntry("sc@bing.com", false);
-        addEntry("qs@bing.com", false);
-        addEntry("pq@bing.com", false);
+        addDefaultEntry("cvid@bing.com");
+        addDefaultEntry("form@bing.com");
+        addDefaultEntry("sk@bing.com");
+        addDefaultEntry("sp@bing.com");
+        addDefaultEntry("sc@bing.com");
+        addDefaultEntry("qs@bing.com");
+        addDefaultEntry("pq@bing.com");
 
         // Adobe
-        addEntry("sc_cid", false);
-        addEntry("mkt_tok", false);
+        addDefaultEntry("sc_cid");
+        addDefaultEntry("mkt_tok");
 
         // Humble Bundle
-        addEntry("hmb_campaign", false);
-        addEntry("hmb_medium", false);
-        addEntry("hmb_source", false);
+        addDefaultEntry("hmb_campaign");
+        addDefaultEntry("hmb_medium");
+        addDefaultEntry("hmb_source");
 
-        addEntry("itm_*", false); //itm
-        addEntry("pk_*", false); // pk
+        addDefaultEntry("itm_*"); //itm
+        addDefaultEntry("pk_*"); // pk
 
         // MSN
-        addEntry("cvid@msn.com", false);
-        addEntry("ocid@msn.com", false);
+        addDefaultEntry("cvid@msn.com");
+        addDefaultEntry("ocid@msn.com");
 
         // sc campaign
-        addEntry("sc_campaign", false);
-        addEntry("sc_channel", false);
-        addEntry("sc_content", false);
-        addEntry("sc_medium", false);
-        addEntry("sc_outcome", false);
-        addEntry("sc_geo", false);
-        addEntry("sc_country", false);
+        addDefaultEntry("sc_campaign");
+        addDefaultEntry("sc_channel");
+        addDefaultEntry("sc_content");
+        addDefaultEntry("sc_medium");
+        addDefaultEntry("sc_outcome");
+        addDefaultEntry("sc_geo");
+        addDefaultEntry("sc_country");
 
         // Facebook
-        addEntry("fb_action_ids", false);
-        addEntry("fb_action_types", false);
-        addEntry("fb_ref", false);
-        addEntry("fb_source", false);
-        addEntry("gs_l", false);
+        addDefaultEntry("fb_action_ids");
+        addDefaultEntry("fb_action_types");
+        addDefaultEntry("fb_ref");
+        addDefaultEntry("fb_source");
+        addDefaultEntry("gs_l");
 
         // Google
-        addEntry("ved@google.*", false);
-        addEntry("bi*@google.*", false);
-        addEntry("gfe*@google.*", false);
-        addEntry("ei@google.*", false);
-        addEntry("sei@google.*", false);
-        addEntry("source@google.*", false);
-        addEntry("gs_*@google.*", false);
-        addEntry("gws_*@google.*", false);
-        addEntry("site@google.*", false);
-        addEntry("oq@google.*", false);
-        addEntry("esrc@google.*", false);
-        addEntry("uact@google.*", false);
-        addEntry("cd@google.*", false);
-        addEntry("cad@google.*", false);
-        addEntry("atyp@google.*", false);
-        addEntry("vet@google.*", false);
-        addEntry("_u@google.*", false);
-        addEntry("je@google.*", false);
-        addEntry("dcr@google.*", false);
-        addEntry("btn*@google.*", false);
-        addEntry("usg@google.*", false);
-        addEntry("cd@google.*", false);
-        addEntry("cad@google.*", false);
-        addEntry("aqs@google.*", false);
-        addEntry("sxsrf@google.*", false);
-        addEntry("rlz@google.*", false);
-        addEntry("i-would-rather-use-firefox@google.*", false);
-        addEntry("pcampaignid@google.*", false);
-        addEntry("sca_esv@google.*", false);
-        addEntry("client@google.*", false);
-        addEntry("sclient@google.*", false);
+        addDefaultEntry("ved@google.*");
+        addDefaultEntry("bi*@google.*");
+        addDefaultEntry("gfe*@google.*");
+        addDefaultEntry("ei@google.*");
+        addDefaultEntry("sei@google.*");
+        addDefaultEntry("source@google.*");
+        addDefaultEntry("gs_*@google.*");
+        addDefaultEntry("gws_*@google.*");
+        addDefaultEntry("site@google.*");
+        addDefaultEntry("oq@google.*");
+        addDefaultEntry("esrc@google.*");
+        addDefaultEntry("uact@google.*");
+        addDefaultEntry("cd@google.*");
+        addDefaultEntry("cad@google.*");
+        addDefaultEntry("atyp@google.*");
+        addDefaultEntry("vet@google.*");
+        addDefaultEntry("_u@google.*");
+        addDefaultEntry("je@google.*");
+        addDefaultEntry("dcr@google.*");
+        addDefaultEntry("btn*@google.*");
+        addDefaultEntry("usg@google.*");
+        addDefaultEntry("cd@google.*");
+        addDefaultEntry("cad@google.*");
+        addDefaultEntry("aqs@google.*");
+        addDefaultEntry("sxsrf@google.*");
+        addDefaultEntry("rlz@google.*");
+        addDefaultEntry("i-would-rather-use-firefox@google.*");
+        addDefaultEntry("pcampaignid@google.*");
+        addDefaultEntry("sca_esv@google.*");
+        addDefaultEntry("client@google.*");
+        addDefaultEntry("sclient@google.*");
 
         // Hubspot
-        addEntry("_hsenc", false);
-        addEntry("_hsmi", false);
-        addEntry("__hssc", false);
-        addEntry("__hstc", false);
-        addEntry("hsCtaTracking", false);
+        addDefaultEntry("_hsenc");
+        addDefaultEntry("_hsmi");
+        addDefaultEntry("__hssc");
+        addDefaultEntry("__hstc");
+        addDefaultEntry("hsCtaTracking");
 
         // IBM
-        addEntry("spReportId", false);
-        addEntry("spJobID", false);
-        addEntry("spUserID", false);
-        addEntry("spMailingID", false);
+        addDefaultEntry("spReportId");
+        addDefaultEntry("spJobID");
+        addDefaultEntry("spUserID");
+        addDefaultEntry("spMailingID");
 
         // Oracle Eloqua
-        addEntry("elqTrackId", false);
-        addEntry("elqTrack", false);
-        addEntry("assetType", false);
-        addEntry("assetId", false);
-        addEntry("recipientId", false);
-        addEntry("campaignId", false);
-        addEntry("siteId", false);
+        addDefaultEntry("elqTrackId");
+        addDefaultEntry("elqTrack");
+        addDefaultEntry("assetType");
+        addDefaultEntry("assetId");
+        addDefaultEntry("recipientId");
+        addDefaultEntry("campaignId");
+        addDefaultEntry("siteId");
 
         // Sourceforge
-        addEntry("source@sourceforge.net", false);
-        addEntry("position@sourceforge.net", false);
+        addDefaultEntry("source@sourceforge.net");
+        addDefaultEntry("position@sourceforge.net");
 
         // twitter
-        addEntry("s@twitter.com", false);
-        addEntry("t@twitter.com", false);
-        addEntry("t@x.com", false);
-        addEntry("s@x.com", false);
-        addEntry("si@x.com", false);
+        addDefaultEntry("s@twitter.com");
+        addDefaultEntry("t@twitter.com");
+        addDefaultEntry("t@x.com");
+        addDefaultEntry("s@x.com");
+        addDefaultEntry("si@x.com");
 
         // Yandex
-        addEntry("_openstat", false);
+        addDefaultEntry("_openstat");
 
-        addEntry("mbid", false);
-        addEntry("cmpid", false);
-        addEntry("cid", false);
-        addEntry("c_id", false);
-        addEntry("campaign_id", false);
-        addEntry("Campaign", false);
+        addDefaultEntry("mbid");
+        addDefaultEntry("cmpid");
+        addDefaultEntry("cid");
+        addDefaultEntry("c_id");
+        addDefaultEntry("campaign_id");
+        addDefaultEntry("Campaign");
 
         // Youtube
-        addEntry("feature@youtube.com", false);
-        addEntry("kw@youtube.com", false);
-        addEntry("si@youtu.be", false);
-        addEntry("si@youtube.com", false);
+        addDefaultEntry("feature@youtube.com");
+        addDefaultEntry("kw@youtube.com");
+        addDefaultEntry("si@youtu.be");
+        addDefaultEntry("si@youtube.com");
 
         // Zeit.de
-        addEntry("wt_zmc", false);
+        addDefaultEntry("wt_zmc");
 
         // Spotify
-        addEntry("si@*.spotify.com", false);
+        addDefaultEntry("si@*.spotify.com");
 
-        String result = buildPrefs();
-        prefs.edit().putString(PREFS_BLACKLIST, result).apply();
+        // Merge previously saved custom rules into the runtime blacklist
+        if (customBlacklist != null && !customBlacklist.isEmpty()) {
+            blacklist.addAll(customBlacklist);
+        }
+
+        // One-time cleanup: remove default entries that were persisted by older versions
+        if (customBlacklist != null && !defaultEntries.isEmpty()) {
+            boolean changed = customBlacklist.removeAll(defaultEntries);
+            if (changed) {
+                prefs.edit().putString(PREFS_BLACKLIST, buildPrefs()).apply();
+            }
+        }
+
+        // Now compile the regex cache for all active rules (defaults + custom)
+        rebuildRegexCache();
     }
 
     public Boolean isBlacklisted(String host, String query) {
-        boolean qMatch = false, hMatch = false;
-        String h = null, e;
-        for (String entry : blacklist) {
-            // handle domain limiter
-            if (entry.contains("@")) {
-                e = entry.split("@")[0];
-                h = entry.split("@")[1];
-                hMatch = false;
-            } else {
-                e = entry;
-                hMatch = true;
+        String h = (host == null) ? "" : host;
+        String combined = query + "@" + h;
+        boolean log = h.contains("threads");
+        if (log) Log.d("030-?", String.format("%s %s", host, query));
+        if (blacklistRegex != null) {
+            for (Pattern p : blacklistRegex) {
+                try {
+                    if (p.matcher(combined).matches()) {
+                        if (log) Log.d("030-??", p.pattern() + " matched");
+                        return true;
+                    }
+                    if (log) Log.d("030-??", p.pattern() + " mismatch");
+                } catch (Exception ignored) {}
             }
-
-            // handle wildcard
-            if (e.endsWith("*"))
-                qMatch = query.startsWith(e.substring(0, e.length() - 1));
-            else if (!qMatch && e.startsWith("*"))
-                qMatch = query.endsWith(e.substring(1));
-            else
-                qMatch = query.equals(e);
-
-            if (!hMatch) {
-                if (h.endsWith("*"))
-                    hMatch = host.startsWith(h.substring(0, h.length() - 1));
-                else if (h.startsWith("*"))
-                    hMatch = host.endsWith(h.substring(1));
-                else
-                    hMatch = host.equals(h);
-            }
-            if (qMatch && hMatch) return true;
         }
         return false;
     }
 
     public Boolean addEntry(String query) {
-        return addEntry(query, true);
+        return addEntry(query, true, true);
     }
 
-    public Boolean addEntry(String query, boolean save) {
+    public Boolean addEntry(String query, boolean save, boolean rebuildCache) {
         if (blacklist.contains(query))
             return false;
         blacklist.add(query);
+
+        if (blacklistCache != null)
+            blacklistCache.add(query);
+
         if (save) {
+            // persist to custom rules only
+            customBlacklist.add(query);
             prefs.edit()
-                    .putString(PREFS_BLACKLIST, prefs.getString(PREFS_BLACKLIST, "") + "," + query)
+                    .putString(PREFS_BLACKLIST, buildPrefs())
                     .apply();
         }
-        return true;
-    }
-
-    public Boolean removeEntry(int index) {
-        try {
-            blacklist.remove(index);
-            prefs.edit().putString(PREFS_BLACKLIST, buildPrefs()).apply();
-        } catch (IndexOutOfBoundsException e) {
-            return false;
-        }
+        // keep regex cache in sync (defaults + custom)
+        if (rebuildCache) rebuildRegexCache();
         return true;
     }
 
     public Boolean removeEntry(String value) {
-        return removeEntry(blacklist.indexOf(value));
+        boolean removed = false;
+        if (blacklist.remove(value)) removed = true;
+        if (customBlacklist != null && customBlacklist.remove(value)) removed = true;
+
+        if (removed) {
+            if (blacklistCache != null)
+                blacklistCache.remove(value);
+            // persist only custom rules
+            prefs.edit().putString(PREFS_BLACKLIST, buildPrefs()).apply();
+            rebuildRegexCache();
+            return true;
+        }
+        return false;
     }
 
     public void resetAll() {
-        blacklist = new ArrayList<>();
+        blacklist = new HashSet<>();
+        customBlacklist = new HashSet<>();
+        blacklistCache = null;
+        // clear persisted custom rules
+        prefs.edit().remove(PREFS_BLACKLIST).apply();
         initializeOrUpdate();
+        rebuildRegexCache();
     }
 
+    private List<String> blacklistCache;
     public String getEntry(int index) {
-        return blacklist.get(index);
+        if (blacklistCache == null) {
+            blacklistCache = List.copyOf(blacklist);
+        }
+        return blacklistCache.get(index);
     }
 
     public int getBlacklistSize() {
@@ -332,10 +439,12 @@ public class BlacklistHandler {
     }
 
     public String buildPrefs() {
+        // Persist only custom rules; defaults are always reloaded at runtime
         StringBuilder sb = new StringBuilder();
-        for (String entry : blacklist)
-            sb.append(entry).append(",");
-
-        return sb.subSequence(0, sb.length() - 1).toString();
+        if (customBlacklist != null) {
+            for (String entry : customBlacklist)
+                sb.append(entry).append(",");
+        }
+        return sb.length() > 0 ? sb.subSequence(0, sb.length() - 1).toString() : "";
     }
 }
