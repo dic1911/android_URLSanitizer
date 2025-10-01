@@ -25,7 +25,7 @@ public class UrlHandler {
 
     // Pattern for recognizing a URL, based off RFC 3986
     private static final Pattern urlPattern = Pattern.compile(
-            "((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=\\+\\$,\\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\\+\\$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/[\\+~%\\/.\\w-_]*)?\\??(?:[-\\+=&;%@.\\w_]*)#?(?:[.\\!\\/\\\\w]*))?)",
+            "((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[-;:&=\\+\\$,\\w]+@)?[A-Za-z0-9.-]+|(?:www\\.|[-;:&=\\+\\$,\\w]+@)[A-Za-z0-9.-]+)((?:\\/[\\+~%\\/.@\\w\\-]*)?\\??(?:[-\\+=&;%@.\\w_]*)#?(?:[.!\\/\\\\\\w\\-]*))?)",
             Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 
     public UrlHandler(Context c, BlacklistHandler bl, String str) {
@@ -114,10 +114,11 @@ public class UrlHandler {
         // trim first slash
         builder.appendEncodedPath(path.replaceFirst("^/", ""));
 
-        if (query != null)
-            for (String q : source.getQueryParameterNames())
-                if (!blh.isBlacklisted(oHost, q))
-                    builder.appendQueryParameter(q, source.getQueryParameter(q));
+        for (String q : source.getQueryParameterNames()) {
+            Log.d("030-qq?", q);
+            if (!blh.isBlacklisted(oHost, q))
+                builder.appendQueryParameter(q, source.getQueryParameter(q));
+        }
 
 
         return builder.build();
